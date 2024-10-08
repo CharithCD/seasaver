@@ -1,12 +1,33 @@
-import { View, Text, SafeAreaView, ScrollView, Image } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StatusBar,
+} from "react-native";
 import { useGlobalContext } from "@/context/Globalprovider";
-import { router } from "expo-router";
-import waves from "../../assets/images/wave.jpeg";
-import { StatusBar } from "expo-status-bar";
+import { getEvents } from "@/lib/appwrite";
 import EventListItem from "@/components/EventListItem";
+import waves from "../../assets/images/wave.jpeg";
+import { router } from "expo-router";
+import useAppwrite from "@/lib/useAppwrite";
 
-const AllEvents = () => {
+interface Event {
+  $id: string;
+  id: number;
+  title: string;
+  type: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  organizer: string;
+}
+
+const AllEvents: React.FC = () => {
   const { user } = useGlobalContext();
 
   if (user === null) {
@@ -14,13 +35,56 @@ const AllEvents = () => {
     return null;
   }
 
+  const [events, setEvents] = useState<Event[]>([]);
+
+  const getData = async () => {
+    const documents = await getEvents();
+    const data: Event[] = documents.map((doc: any) => ({
+      $id: doc.$id,
+      id: doc.id,
+      title: doc.title,
+      type: doc.type,
+      description: doc.description,
+      date: doc.date,
+      time: doc.time,
+      location: doc.location,
+      organizer: doc.organizer,
+    }));
+    setEvents(data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <SafeAreaView className="w-full h-full bg-blue-50">
       <ScrollView className="">
         <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
-        <EventListItem/>
+        <View className="mt-4">
+          <View className="px-6">
+            <Text className="text-lg font-bold">All Events</Text>
+            <Text className="mt-2 text-sm text-justify text-gray-500">
+              Here are all the events that are coming up. Click on an event to
+              see more details.
+            </Text>
+          </View>
+          <View className="flex justify-center items-end p-4">
+            <TouchableOpacity
+              className="p-2 bg-primary rounded-lg"
+              onPress={() => router.push("/(event)/AddEvent")}
+            >
+              <Text className="text-white">Add Event</Text>
+            </TouchableOpacity>
+          </View>
+
+          {events.map((event) => (
+            <EventListItem key={event.$id} event={event} />
+          ))}
+          
+        </View>
       </ScrollView>
-      <StatusBar style="dark" />
+      <StatusBar barStyle="dark-content" />
     </SafeAreaView>
   );
 };

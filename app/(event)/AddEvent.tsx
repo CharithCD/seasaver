@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, StatusBar } from "react-native";
+import { View, Text, ScrollView, Image, StatusBar, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import { Link } from "expo-router";
@@ -7,15 +7,65 @@ import DateField from "@/components/DateField";
 import TimeField from "@/components/TimeField";
 import TextField from "@/components/TextField";
 import SolidButton from "@/components/SolidButton";
+import { addEvent } from "@/lib/appwrite";
 
 export default function AddEventScreen() {
   const [form, setForm] = React.useState({
-    eventTitle: "",
-    eventType: "",
+    title: "",
+    type: "",
     description: "",
     date: new Date(),
     time: new Date(),
+    location: "",
+    organizer: "",
   });
+  const [isSubmitting, setSubmitting] = React.useState(false);
+
+  const submit = async () => {
+    // is values empty
+    if (
+      form.title === "" ||
+      form.type === "" ||
+      form.description === "" ||
+      form.location === "" ||
+      form.organizer === ""
+    ) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+
+    // Implement the submit logic here
+    setSubmitting(true);
+
+    try {
+      console.log(form);
+
+      //const newEvent = await addEvent(form);
+
+      // if (newEvent) {
+      //   Alert.alert("Success", "Event added successfully");
+
+      //   //clean up the form
+      //   setForm({
+      //     title: "",
+      //     type: "",
+      //     description: "",
+      //     date: new Date(),
+      //     time: new Date(),
+      //     location: "",
+      //     organizer: "",
+      //   });
+      // }
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert("Error", error.message);
+      } else {
+        Alert.alert("Error", "An unknown error occurred");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <SafeAreaView>
@@ -31,20 +81,20 @@ export default function AddEventScreen() {
           <View className="border mt-5 p-4 mb-7 border-dashed border-gray-400">
             <TextField
               title="Event Title"
-              value={form.eventTitle}
+              value={form.title}
               placeholder="Event Title"
               handleChangeText={(e: string) => {
-                setForm({ ...form, eventTitle: e });
+                setForm({ ...form, title: e });
               }}
               otherStyles="mt-4"
               keyboardType="default"
             />
             <TextField
               title="Event Type"
-              value={form.eventType}
+              value={form.type}
               placeholder="Event Type"
               handleChangeText={(e: string) => {
-                setForm({ ...form, eventType: e });
+                setForm({ ...form, type: e });
               }}
               otherStyles="mt-4"
               keyboardType="email-address"
@@ -57,6 +107,7 @@ export default function AddEventScreen() {
               }
               otherStyles="mt-4"
             />
+            
             <TimeField
               title="Event Time"
               time={form.time}
@@ -64,13 +115,48 @@ export default function AddEventScreen() {
               otherStyles="mt-4"
             />
 
+            <TextField
+              title="Location"
+              value={form.location}
+              placeholder="Location"
+              handleChangeText={(e: string) => {
+                setForm({ ...form, location: e });
+              }}
+              otherStyles="mt-4"
+              keyboardType="default"
+            />
+
+            <TextField
+              title="Organizer"
+              value={form.organizer}
+              placeholder="Organizer"
+              handleChangeText={(e: string) => {
+                setForm({ ...form, organizer: e });
+              }}
+              otherStyles="mt-4"
+              keyboardType="default"
+            />
+
+            <TextField
+              title="Description"
+              value={form.description}
+              placeholder="Description"
+              handleChangeText={(e: string) => {
+                setForm({ ...form, description: e });
+              }}
+              otherStyles="mt-4"
+              keyboardType="default"
+            />
+
             <View className="flex flex-row">
               <View className="flex-1 flex-col">
                 <SolidButton
                   title="Submit"
-                  handlePress={() => {}}
+                  handlePress={() => {
+                    submit();
+                  }}
                   containerStyles="mt-6"
-                  isLoading={false}
+                  isLoading={isSubmitting}
                 />
               </View>
             </View>

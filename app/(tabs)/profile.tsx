@@ -11,6 +11,15 @@ import UserNavList from "@/components/UserNavList";
 export default function ProfileScreen() {
   const { user, setUser, setIsLogged, isAdmin, setIsAdmin } = useGlobalContext();
   
+  if(user){
+    setIsAdmin(user.role == "admin");
+  }
+
+  if (!user) {
+    router.replace("/(auth)/sign-in");
+    return null;
+  }
+
   const logout = async () => {
     await signOut();
     setUser(null);
@@ -19,10 +28,6 @@ export default function ProfileScreen() {
     router.push("/(auth)/sign-in");
   };
 
-  if (!user) {
-    router.replace("/(auth)/sign-in");
-    return null;
-  }
 
   return (
     <SafeAreaView className="w-full h-full p-4 bg-blue-50">

@@ -9,7 +9,7 @@ import { getCurrentUser, signIn, signOut } from "@/lib/appwrite";
 import { useGlobalContext } from "@/context/Globalprovider";
 
 const SignIn = () => {
-  const { setUser, setIsLogged } = useGlobalContext();
+  const { setUser, setIsLogged, setIsAdmin } = useGlobalContext();
 
   const [form, setForm] = useState({ phone: "", email: "", password: "" });
   const [isSubmitting, setSubmitting] = useState(false);
@@ -17,6 +17,7 @@ const SignIn = () => {
   const submit = async () => {
     if (form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
+      return;
     }
 
     setSubmitting(true);
@@ -32,6 +33,7 @@ const SignIn = () => {
           role: result.role,
           avatar: result.avatar,
         });
+        setIsAdmin(result.role === "admin");
       } else {
         Alert.alert("Error", "Failed to retrieve user information");
       }

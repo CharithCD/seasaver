@@ -7,8 +7,8 @@ export const appwriteConfig = {
   project: "66b0afe1000ab420e1c9",
   databaseId: "66fd7910001ed3369034",
   userCollectionId: "670378ea001d91b26686",
-  eventCollectionId: "6703b5e0001f1f3e2e3b",
-  requestCollectionId: "6703b5",
+  eventCollectionId: "6704fb7c001f9b71da21",
+  requestCollectionId: "6704fd230004142fc914",
 };
 
 const { endpoint, platform, project, databaseId, userCollectionId, eventCollectionId, requestCollectionId } = appwriteConfig;
@@ -141,27 +141,32 @@ export async function signOut() {
 
 //Add Event
 export async function addEvent(
-  title: string,
-  description: string,
-  date: Date,
-  location: string,
-  time: Date,
-  organizer: string,
-  type: string,
+  form: {
+    title: string;
+    description: string;
+    date: Date;
+    location: string;
+    time: Date;
+    organizer: string;
+    type: string;
+  }
 ) {
   try {
+    const user = await getCurrentUser();
+    if (!user) throw Error;
     const newEvent = await databases.createDocument(
       databaseId,
-      "6703b5e0001f1f3e2e3b",
+      eventCollectionId,
       ID.unique(),
       {
-        title: title,
-        description: description,
-        date: date,
-        location: location,
-        time: time,
-        organizer: organizer,
-        type: type
+        title: form.title,
+        description: form.description,
+        date: form.date,
+        location: form.location,
+        time: form.time,
+        organizer: form.organizer,
+        type: form.type,
+        createdBy: user.$id,
       }
     );
 
@@ -227,6 +232,21 @@ export async function addRequest(
     );
 
     return newRequest;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+//get all events
+export async function getEvents() {
+  try {
+    const events = await databases.listDocuments(
+      databaseId,
+      eventCollectionId,
+      []
+    );
+
+    return events.documents;
   } catch (error) {
     throw new Error(String(error));
   }

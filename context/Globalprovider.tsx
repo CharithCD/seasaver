@@ -70,10 +70,10 @@ const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }): React.Reac
       .catch((error) => {
         console.error(error);
       })
-      .finally(() => {
+      .finally(() => {  
         setLoading(false);
       });
-  }, [isLogged]);
+  }, [isLogged, isAdmin]);
 
   return (
     <GlobalContext.Provider
