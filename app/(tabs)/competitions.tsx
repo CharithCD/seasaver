@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function ExploreScreen() {
+export default function CompetitionsScreen() {
   return (
     <View style={styles.container}>
-      <Text>Explore Screen</Text>
+      <Text>Competitions</Text>
     </View>
   );
 }
