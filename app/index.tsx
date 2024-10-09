@@ -9,6 +9,7 @@ import Loader from "@/components/Loader";
 
 import logo from "@/assets/images/logo.png";
 import card from "@/assets/images/card.png";
+import React from "react";
 
 const Welcome = () => {
   const { loading, isLogged } = useGlobalContext();

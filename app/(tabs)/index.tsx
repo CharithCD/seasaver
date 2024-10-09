@@ -2,6 +2,7 @@ import { useGlobalContext } from "@/context/Globalprovider";
 import { getEvents } from "@/lib/appwrite";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Redirect, router } from "expo-router";
+import React from "react";
 import { useEffect, useState } from "react";
 import {
   View,

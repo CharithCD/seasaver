@@ -3,11 +3,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import { Link } from "expo-router";
 import waves from "../../assets/images/wave.jpeg";
-import DateField from "@/components/DateField";
-import TimeField from "@/components/TimeField";
 import TextField from "@/components/TextField";
 import SolidButton from "@/components/SolidButton";
-import { addEvent } from "@/lib/appwrite";
 
 export default function CompetitionEntryScreen() {
   const [form, setForm] = React.useState({

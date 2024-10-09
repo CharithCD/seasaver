@@ -144,9 +144,9 @@ export async function addEvent(
   form: {
     title: string;
     description: string;
-    date: Date;
+    date: string;
     location: string;
-    time: Date;
+    time: string;
     organizer: string;
     type: string;
   }

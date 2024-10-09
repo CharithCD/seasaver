@@ -14,8 +14,10 @@ export default function AddEventScreen() {
     title: "",
     type: "",
     description: "",
-    date: new Date(),
-    time: new Date(),
+    // date: new Date(),
+    // time: new Date(),
+    date: "",
+    time: "",
     location: "",
     organizer: "",
   });
@@ -38,24 +40,25 @@ export default function AddEventScreen() {
     setSubmitting(true);
 
     try {
-      console.log(form);
 
-      //const newEvent = await addEvent(form);
+      const newEvent = await addEvent(form);
 
-      // if (newEvent) {
-      //   Alert.alert("Success", "Event added successfully");
+      if (newEvent) {
+        Alert.alert("Success", "Event added successfully");
 
-      //   //clean up the form
-      //   setForm({
-      //     title: "",
-      //     type: "",
-      //     description: "",
-      //     date: new Date(),
-      //     time: new Date(),
-      //     location: "",
-      //     organizer: "",
-      //   });
-      // }
+        //clean up the form
+        setForm({
+          title: "",
+          type: "",
+          description: "",
+          // date: new Date(),
+          // time: new Date(),
+          date: "",
+          time: "",
+          location: "",
+          organizer: "",
+        });
+      }
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert("Error", error.message);
@@ -99,21 +102,41 @@ export default function AddEventScreen() {
               otherStyles="mt-4"
               keyboardType="email-address"
             />
-            <DateField
+            {/* <DateField
               title="Event Date"
               date={form.date}
               handleDateChange={(date: Date) =>
                 setForm({ ...form, date: date })
               }
               otherStyles="mt-4"
-            />
+            /> */}
+
+            <TextField
+              title="Event Date"
+              value={form.date}
+              placeholder="Event Date"
+              handleChangeText={(e: string) => {
+                setForm({ ...form, date: e });
+              }}
+              otherStyles="mt-4"
+              keyboardType="default"/>
             
-            <TimeField
+            {/* <TimeField
               title="Event Time"
               time={form.time}
               handleTimeChange={(time: Date) => setForm({ ...form, time })}
               otherStyles="mt-4"
-            />
+            /> */}
+
+            <TextField
+              title="Event Time"
+              value={form.time}
+              placeholder="Event Time"
+              handleChangeText={(e: string) => {
+                setForm({ ...form, time: e });
+              }}
+              otherStyles="mt-4"
+              keyboardType="default"/>
 
             <TextField
               title="Location"

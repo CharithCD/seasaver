@@ -7,6 +7,7 @@ import { useGlobalContext } from "@/context/Globalprovider";
 import { router } from "expo-router";
 import AdminNavList from "@/components/AdminNavList";
 import UserNavList from "@/components/UserNavList";
+import React from "react";
 
 export default function ProfileScreen() {
   const { user, setUser, setIsLogged, isAdmin, setIsAdmin } = useGlobalContext();
