@@ -2,6 +2,7 @@ import * as React from "react";
 import { Text, StyleSheet, Image, View, Pressable } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Fontisto from "@expo/vector-icons/Fontisto";
+import { router } from "expo-router";
 
 const CompetitionListItem = ({ competition }: any) => {
   return (
@@ -28,7 +29,9 @@ const CompetitionListItem = ({ competition }: any) => {
       </View>
 
       <View className="flex flex-row items-center ml-4">
-        <Pressable onPress={() => {}} className="p-2 rounded-full bg-gray-100">
+        <Pressable onPress={() => {
+          router.push(`/(competition)/update/${competition.$id}`)
+        }} className="p-2 rounded-full bg-gray-100">
           <Fontisto name="nav-icon-grid-a" size={20} color={"#006FFD"} />
         </Pressable>
       </View>

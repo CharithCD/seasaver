@@ -7,6 +7,7 @@ import SolidButton from "@/components/SolidButton";
 import { addEvent } from "@/lib/appwrite";
 
 export default function AddEventScreen() {
+  
   const [form, setForm] = React.useState({
     title: "",
     type: "",

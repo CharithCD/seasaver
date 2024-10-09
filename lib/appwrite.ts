@@ -16,6 +16,7 @@ export const appwriteConfig = {
   userCollectionId: "670378ea001d91b26686",
   eventCollectionId: "6704fb7c001f9b71da21",
   requestCollectionId: "6704fd230004142fc914",
+  competitionCollectionId: "",
 };
 
 const {
@@ -26,6 +27,7 @@ const {
   userCollectionId,
   eventCollectionId,
   requestCollectionId,
+  competitionCollectionId,
 } = appwriteConfig;
 
 //localhost
@@ -275,12 +277,10 @@ export async function getEvents() {
 //get one event by id
 export async function getEventById(id: string) {
   try {
-    const event = await databases.listDocuments(
-      databaseId,
-      eventCollectionId,
-      [Query.equal("$id", id)]
-    );
-    
+    const event = await databases.listDocuments(databaseId, eventCollectionId, [
+      Query.equal("$id", id),
+    ]);
+
     return event.documents;
   } catch (error) {
     throw new Error(String(error));
@@ -310,6 +310,103 @@ export async function getRequestById(id: string) {
       [Query.equal("$id", id)]
     );
     return request.documents;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+///////////////////////////
+//add competition
+
+interface Competition {
+  $id: string;
+  title: string;
+  location: string;
+  date: string;
+  time: string;
+  description: string;
+  imgUrl?: string;
+}
+
+//Add Competition
+export async function addCompetition(form: {
+  title: string;
+  location: string;
+  date: string;
+  time: string;
+  description: string;
+  imgUrl: string;
+}) {
+  try {
+    const user = await getCurrentUser();
+    if (!user) throw Error;
+    const newCompetition = await databases.createDocument(
+      databaseId,
+      competitionCollectionId,
+      ID.unique(),
+      {
+        title: form.title,
+        location: form.location,
+        date: form.date,
+        time: form.time,
+        description: form.description,
+        imgUrl: form.imgUrl,
+        createdBy: user.$id,
+      }
+    );
+
+    return newCompetition;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+//Update Competition
+export async function updateCompetition(competition: Competition) {
+  try {
+    const updatedCompetition = await databases.updateDocument(
+      databaseId,
+      competitionCollectionId,
+      competition.$id,
+      {
+        title: competition.title,
+        location: competition.location,
+        date: competition.date,
+        time: competition.time,
+        description: competition.description,
+        imgUrl: competition.imgUrl,
+      }
+    );
+
+    return updatedCompetition;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+//Get All Competitions
+export async function getCompetitions() {
+  try {
+    const competitions = await databases.listDocuments(
+      databaseId,
+      competitionCollectionId,
+      []
+    );
+    return competitions.documents;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+//Get One Competition by id
+export async function getCompetitionById(id: string) {
+  try {
+    const competition = await databases.listDocuments(
+      databaseId,
+      competitionCollectionId,
+      [Query.equal("$id", id)]
+    );
+    return competition.documents;
   } catch (error) {
     throw new Error(String(error));
   }

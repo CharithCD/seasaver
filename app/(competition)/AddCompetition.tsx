@@ -1,18 +1,61 @@
-import { View, Text, ScrollView, Image, StatusBar } from "react-native";
+import { View, Text, ScrollView, Image, StatusBar, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import waves from "../../assets/images/wave.jpeg";
 import TextField from "@/components/TextField";
 import SolidButton from "@/components/SolidButton";
+import { addCompetition } from "@/lib/appwrite";
 
 export default function AddCompetitionScreen() {
+  const [isSubmitting, setSubmitting] = React.useState(false);
+
   const [form, setForm] = React.useState({
     title: "",
     location: "",
     date: "",
     time: "",
     description: "",
+    imgUrl: "",
   });
+
+  const submit = async () => {
+    if (
+      form.title === "" ||
+      form.location === "" ||
+      form.date === "" ||
+      form.time === "" ||
+      form.description === ""
+    ) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+    setSubmitting(true);
+
+    try {
+      const newCompetition = await addCompetition(form);
+
+      if (newCompetition) {
+        Alert.alert("Success", "Event added successfully");
+
+        setForm({
+          title: "",
+          location: "",
+          date: "",
+          time: "",
+          description: "",
+          imgUrl: "",
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert("Error", error.message);
+      } else {
+        Alert.alert("Error", "An unknown error occurred");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <SafeAreaView>
@@ -85,9 +128,11 @@ export default function AddCompetitionScreen() {
               <View className="flex-1 flex-col">
                 <SolidButton
                   title="Submit"
-                  handlePress={() => {}}
+                  handlePress={() => {
+                    submit();
+                  }}
                   containerStyles="mt-6"
-                  isLoading={false}
+                  isLoading={isSubmitting}
                 />
               </View>
             </View>

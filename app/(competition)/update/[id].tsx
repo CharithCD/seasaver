@@ -1,18 +1,96 @@
-import { View, Text, ScrollView, Image, StatusBar} from "react-native";
+import { View, Text, ScrollView, Image, StatusBar, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import waves from "../../assets/images/wave.jpeg";
 import TextField from "@/components/TextField";
 import SolidButton from "@/components/SolidButton";
+import { useGlobalContext } from "@/context/Globalprovider";
+import { router, useLocalSearchParams } from "expo-router";
+import { getCompetitionById, updateCompetition } from "@/lib/appwrite";
+
+interface Competition {
+  $id: string;
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  imgUrl?: string;
+}
 
 export default function UpdateCompetitionScreen() {
-  const [form, setForm] = React.useState({
+  const { user } = useGlobalContext();
+
+  if (!user) {
+    router.replace("/(auth)/sign-in");
+    return null;
+  }
+
+  const { id } = useLocalSearchParams() as { id: string };
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSubmitting, setSubmitting] = React.useState(false);
+  const [form, setForm] = React.useState<Competition>({
+    $id: "",
     title: "",
     location: "",
     date: "",
     time: "",
     description: "",
+    imgUrl: "",
   });
+
+  const getData = async () => {
+    setIsLoading(true);
+    const documents = await getCompetitionById(id as string);
+    const document = documents[0];
+    const data: Competition = {
+      $id: document.$id,
+      title: document.title,
+      description: document.description,
+      date: document.date,
+      time: document.time,
+      location: document.location,
+      imgUrl: document.imgUrl,
+    };
+    setForm(data);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const submit = async () => {
+    if (
+      form.title === "" ||
+      form.description === "" ||
+      form.date === "" ||
+      form.time === "" ||
+      form.location === ""
+    ) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+    setSubmitting(true);
+
+    try {
+      const updatedCompetition = await updateCompetition(form);
+
+      if (updatedCompetition) {
+        Alert.alert("Success", "Competition updated successfully");
+        router.replace("/(competition)/AddCompetition");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert("Error", error.message);
+      } else {
+        Alert.alert("Error", "An unknown error occurred");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <SafeAreaView>
