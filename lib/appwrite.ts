@@ -162,6 +162,7 @@ export async function addEvent(form: {
   time: string;
   organizer: string;
   type: string;
+  imgUrl?: string;
 }) {
   try {
     const user = await getCurrentUser();
@@ -178,6 +179,7 @@ export async function addEvent(form: {
         time: form.time,
         organizer: form.organizer,
         type: form.type,
+        imgUrl: form.imgUrl,
         createdBy: user.$id,
       }
     );
@@ -224,24 +226,29 @@ export async function updateEvent(event: Event) {
 }
 
 //add Request
-export async function addRequest(
-  fullName: string,
-  email: string,
-  phone: string,
-  description: string,
-  organizer: string
-) {
+interface Request {
+  fullName: string;
+  email: string;
+  phone: string;
+  description: string;
+  organizer: string;
+}
+
+export async function addRequest(form: Request) {
   try {
+    const user = await getCurrentUser();
+    if (!user) throw Error;
     const newRequest = await databases.createDocument(
       databaseId,
-      "6703b5",
+      requestCollectionId,
       ID.unique(),
       {
-        fullName: fullName,
-        email: email,
-        phone: phone,
-        description: description,
-        organizer: organizer,
+        fullName: form.fullName,
+        email: form.email,
+        phone: form.phone,
+        description: form.description,
+        organizer: form.organizer,
+        user: user.$id || "",
       }
     );
 
@@ -275,6 +282,34 @@ export async function getEventById(id: string) {
     );
     
     return event.documents;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+//Get All Requests
+export async function getRequests() {
+  try {
+    const requests = await databases.listDocuments(
+      databaseId,
+      requestCollectionId,
+      []
+    );
+    return requests.documents;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+//Get One Request by id
+export async function getRequestById(id: string) {
+  try {
+    const request = await databases.listDocuments(
+      databaseId,
+      requestCollectionId,
+      [Query.equal("$id", id)]
+    );
+    return request.documents;
   } catch (error) {
     throw new Error(String(error));
   }

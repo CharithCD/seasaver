@@ -13,7 +13,7 @@ const LinksList = [
   },
   {
     title:"Request Event",
-    link:"/(event)/AddRequest"
+    link:"/(request)/AddRequest"
   }
 ];
 

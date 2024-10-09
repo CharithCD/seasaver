@@ -1,24 +1,63 @@
-import { View, Text, ScrollView, Image, StatusBar } from "react-native";
+import { View, Text, ScrollView, Image, StatusBar, Alert } from "react-native";
 import waves from "@/assets/images/wave.jpeg"; // Adjust the path as necessary
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import { Link } from "expo-router";
 import TextField from "@/components/TextField";
 import SolidButton from "@/components/SolidButton";
+import { addRequest } from "@/lib/appwrite";
 
 export default function AddRequestScreen() {
   const [form, setForm] = React.useState({
-    fullname: "",
+    fullName: "",
     email: "",
     phone: "",
-    organization: "",
+    organizer: "",
     description: "",
   });
 
+  const [isSubmitting, setSubmitting] = React.useState(false);
+
+  const submit = async () => {
+    if (
+      form.fullName === "" ||
+      form.email === "" ||
+      form.phone === "" ||
+      form.organizer === "" ||
+      form.description === ""
+    ) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const newEvent = await addRequest(form);
+      if (newEvent) {
+        Alert.alert("Success", "Request added successfully");
+
+        setForm({
+          fullName: "",
+          email: "",
+          phone: "",
+          organizer: "",
+          description: "",
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        Alert.alert("Error", error.message);
+      } else {
+        Alert.alert("Error", "An unknown error occurred");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <SafeAreaView>
-      <StatusBar barStyle="dark-content" />
-      <ScrollView className="-mt-10">
+      <ScrollView className="">
         <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
         <View className="px-6 mt-4">
           <Text className="text-lg font-bold">Fill the form</Text>
@@ -30,10 +69,10 @@ export default function AddRequestScreen() {
           <View className="border mt-5 p-4 mb-7 border-dashed border-gray-400">
             <TextField
               title="Full Name"
-              value={form.fullname}
+              value={form.fullName}
               placeholder="Full Name"
               handleChangeText={(e: string) => {
-                setForm({ ...form, fullname: e });
+                setForm({ ...form, fullName: e });
               }}
               otherStyles="mt-4"
               keyboardType="default"
@@ -60,10 +99,10 @@ export default function AddRequestScreen() {
             />
             <TextField
               title="Organization"
-              value={form.organization}
+              value={form.organizer}
               placeholder="Organization"
               handleChangeText={(e: string) => {
-                setForm({ ...form, organization: e });
+                setForm({ ...form, organizer: e });
               }}
               otherStyles="mt-4"
               keyboardType="default"
@@ -83,9 +122,9 @@ export default function AddRequestScreen() {
               <View className="flex-1 flex-col">
                 <SolidButton
                   title="Submit"
-                  handlePress={() => {}}
+                  handlePress={() => {submit()}}
                   containerStyles="mt-6"
-                  isLoading={false}
+                  isLoading={isSubmitting}
                 />
               </View>
             </View>

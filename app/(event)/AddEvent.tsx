@@ -17,6 +17,7 @@ export default function AddEventScreen() {
     time: "",
     location: "",
     organizer: "",
+    imgUrl: "",
   });
   const [isSubmitting, setSubmitting] = React.useState(false);
 
@@ -37,7 +38,6 @@ export default function AddEventScreen() {
     setSubmitting(true);
 
     try {
-
       const newEvent = await addEvent(form);
 
       if (newEvent) {
@@ -54,6 +54,7 @@ export default function AddEventScreen() {
           time: "",
           location: "",
           organizer: "",
+          imgUrl: "",
         });
       }
     } catch (error) {
@@ -116,8 +117,9 @@ export default function AddEventScreen() {
                 setForm({ ...form, date: e });
               }}
               otherStyles="mt-4"
-              keyboardType="default"/>
-            
+              keyboardType="default"
+            />
+
             {/* <TimeField
               title="Event Time"
               time={form.time}
@@ -133,7 +135,8 @@ export default function AddEventScreen() {
                 setForm({ ...form, time: e });
               }}
               otherStyles="mt-4"
-              keyboardType="default"/>
+              keyboardType="default"
+            />
 
             <TextField
               title="Location"
@@ -152,6 +155,17 @@ export default function AddEventScreen() {
               placeholder="Organizer"
               handleChangeText={(e: string) => {
                 setForm({ ...form, organizer: e });
+              }}
+              otherStyles="mt-4"
+              keyboardType="default"
+            />
+
+            <TextField
+              title="Image URL"
+              value={form.imgUrl}
+              placeholder="Image URL"
+              handleChangeText={(e: string) => {
+                setForm({ ...form, imgUrl: e });
               }}
               otherStyles="mt-4"
               keyboardType="default"
@@ -182,7 +196,7 @@ export default function AddEventScreen() {
             </View>
           </View>
         </View>
-        <StatusBar translucent={true} barStyle={"light-content"}/>
+        <StatusBar translucent={true} barStyle={"light-content"} />
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,0 +1,99 @@
+import Loader from "@/components/Loader";
+import { useGlobalContext } from "@/context/Globalprovider";
+import { getRequestById } from "@/lib/appwrite";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { router, useLocalSearchParams } from "expo-router";
+import waves from "@/assets/images/wave.jpeg";
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, ScrollView, StatusBar } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+interface Request {
+  $id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  description: string;
+  organizer: string;
+}
+
+export default function RequestDetailsScreen() {
+  const { user } = useGlobalContext();
+
+  if (!user) {
+    router.replace("/(auth)/sign-in");
+    return null;
+  }
+
+  const { id } = useLocalSearchParams() as { id: string };
+
+  const [requests, setRequests] = useState<Request[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const getData = async () => {
+    setIsLoading(true);
+    const documents = await getRequestById(id as string);
+    const data: Request[] = documents.map((doc: any) => ({
+      $id: doc.$id,
+      fullName: doc.fullName,
+      email: doc.email,
+      phone: doc.phone,
+      description: doc.description,
+      organizer: doc.organizer,
+    }));
+    setRequests(data);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return (
+    <SafeAreaView>
+      <ScrollView>
+        {requests.length == 0 && (
+          <View className="flex justify-center items-center">
+            <Loader isLoading={isLoading} />
+          </View>
+        )}
+        {requests.length > 0 && (
+          <>
+            <View style={{ position: "relative" }}>
+              <Image
+                source={waves}
+                style={{ width: "100%", height: 100 }}
+                resizeMode="cover"
+              />
+            </View>
+            <View style={{ paddingHorizontal: 16, marginTop: 16, padding: 2 }}>
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                <Text style={{ fontSize: 24, fontWeight: "bold", color: "#333" }}>
+                  {requests[0].fullName}
+                </Text>
+                <FontAwesome name="user" size={24} color="#333" />
+              </View>
+              <View style={{ marginTop: 8, flexDirection: "row", alignItems: "center" }}>
+                <FontAwesome name="envelope" size={16} color="#666" style={{ marginRight: 8 }} />
+                <Text style={{ color: "#666", fontSize: 16 }}>{requests[0].email}</Text>
+              </View>
+              <View style={{ marginTop: 8, flexDirection: "row", alignItems: "center" }}>
+                <FontAwesome name="phone" size={16} color="#666" style={{ marginRight: 8 }} />
+                <Text style={{ color: "#666", fontSize: 16 }}>{requests[0].phone}</Text>
+              </View>
+              <View style={{ marginTop: 16, flexDirection: "row", alignItems: "center" }}>
+                <FontAwesome name="users" size={16} color="#666" style={{ marginRight: 8 }} />
+                <Text style={{ color: "#666", fontSize: 16 }}>{requests[0].organizer}</Text>
+              </View>
+              <View style={{ marginTop: 16, flexDirection: "row", alignItems: "center", paddingHorizontal:4, marginRight:4 }}>
+                <FontAwesome name="info-circle" size={16} color="#666" style={{ marginRight: 8 }} />
+                <Text style={{ color: "#666", fontSize: 16 }}>{requests[0].description}</Text>
+              </View>
+            </View>
+          </>
+        )}
+      </ScrollView>
+      <StatusBar translucent={true} barStyle={"light-content"} />
+    </SafeAreaView>
+  );
+}

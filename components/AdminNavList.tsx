@@ -12,6 +12,10 @@ const LinksList = [
       link: "/(event)/AllEvents",
     },
     {
+      title: "Event Request",
+      link: "/(request)/AllRequest",
+    },
+    {
         title: "Blogs",
         link: "/(blog)/AllBlogs",
     },
