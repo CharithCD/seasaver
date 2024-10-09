@@ -1,3 +1,4 @@
+import React from "react";
 import { View, ActivityIndicator, Dimensions, Platform } from "react-native";
 
 interface LoaderProps {

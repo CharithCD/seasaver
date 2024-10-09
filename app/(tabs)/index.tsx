@@ -11,6 +11,7 @@ import {
   Image,
   StatusBar,
   Dimensions,
+  RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -49,10 +50,10 @@ interface ItemProps {
 }
 
 const Item = ({ title, imageUrl }: ItemProps) => (
-  <View className="m-2 rounded-md">
+  <View className="m-1 rounded-md shadow-lg shadow-black">
     <Image
       source={{ uri: imageUrl }}
-      style={{ width: width * 0.8, height: 160 }}
+      style={{ width: width * 0.78, height: 160 }}
       className="rounded-lg"
       accessibilityLabel={title}
     />
@@ -71,69 +72,41 @@ interface Event {
   organizer: string;
 }
 
-const [events, setEvents] = useState<Event[]>([]);
+interface EventProps {
+  event: {
+    id: number;
+    title: string;
+    type: string;
+    description: string;
+    date: string;
+    time: string;
+    location: string;
+    organizer: string;
+  };
+}
+const Event: React.FC<EventProps> = ({ event }) => (
+  <View className="flex flex-row bg-white p-4 m-1 rounded-lg shadow-lg shadow-blue-700">
+    <View className="flex flex-col w-1/2 text-justify pr-2">
+      <Text className="text-[18px] font-semibold leading-6 text-gray-800">
+        {event.title}
+      </Text>
+    </View>
 
-const getData = async () => {
-  const documents = await getEvents();
-  const data: Event[] = documents.map((doc: any) => ({
-    $id: doc.$id,
-    id: doc.id,
-    title: doc.title,
-    type: doc.type,
-    description: doc.description,
-    date: doc.date,
-    time: doc.time,
-    location: doc.location,
-    organizer: doc.organizer,
-  }));
-  setEvents(data);
-};
-
-useEffect(() => {
-  getData();
-}, []);
-
-const Event = () => (
-  // <View className="m-2 rounded-md">
-  //   <Image
-  //     source={{ uri: imageUrl }}
-  //     style={{ width: width * 0.8, height: 160 }}
-  //     className="rounded-lg"
-  //     accessibilityLabel={title}
-  //   />
-  // </View>
-  //create a new component for the event
-  //card contain a image and a text
-
-  // <View className="flex flex-row bg-white p-6 my-2 mx-4 rounded-lg shadow-lg">
-  //   <View className="flex flex-col w-1/2 text-justify pr-2">
-  //     <Text className="text-[18px] font-semibold leading-6 text-gray-800">
-  //       {title}
-  //     </Text>
-  //   </View>
-
-  //   <View className="flex flex-col w-1/3">
-  //     <View className="flex flex-row justify-between items-center mb-2">
-  //       <View className="grid grid-cols-2">
-  //         <View className="flex flex-row items-center gap-2">
-  //           <FontAwesome name="calendar" size={16} color={"#006FFD"} />
-  //           <Text className="text-[14px] text-gray-600">{event.date}</Text>
-  //         </View>
-  //         <View className="flex flex-row items-center gap-2">
-  //           <FontAwesome name="clock-o" size={16} color={"#006FFD"} />
-  //           <Text className="text-[14px] text-gray-600">{event.time}</Text>
-  //         </View>
-  //       </View>
-  //     </View>
-  //   </View>
-
-  //   <View className="flex flex-row items-center ml-4">
-  //     <Pressable onPress={() => {}} className="p-2 rounded-full bg-gray-100">
-  //       <Fontisto name="nav-icon-grid-a" size={20} color={"#006FFD"} />
-  //     </Pressable>
-  //   </View>
-  // </View>
-  <></>
+    <View className="flex flex-col w-1/3">
+      <View className="flex flex-row justify-between items-center mb-2">
+        <View className="grid grid-cols-2">
+          <View className="flex flex-row items-center gap-2">
+            <FontAwesome name="calendar" size={16} color={"#006FFD"} />
+            <Text className="text-[14px] text-gray-600">{event.date}</Text>
+          </View>
+          <View className="flex flex-row items-center gap-2">
+            <FontAwesome name="clock-o" size={16} color={"#006FFD"} />
+            <Text className="text-[14px] text-gray-600">{event.time}</Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
 );
 
 export default function HomeScreen() {
@@ -144,14 +117,45 @@ export default function HomeScreen() {
     return null;
   }
 
+  const [events, setEvents] = useState<Event[]>([]);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+
+  const getData = async () => {
+    const documents = await getEvents();
+    const data: Event[] = documents.map((doc: any) => ({
+      $id: doc.$id,
+      id: doc.id,
+      title: doc.title,
+      type: doc.type,
+      description: doc.description,
+      date: doc.date,
+      time: doc.time,
+      location: doc.location,
+      organizer: doc.organizer,
+    }));
+    setEvents(data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const refetch = async () => getData();
+
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await refetch();
+    setIsRefreshing(false);
+  };
+
   return (
-    <SafeAreaView className="w-full h-full p-4 bg-blue-50">
+    <SafeAreaView className="w-full h-full p-3 bg-white">
       <FlatList
         contentContainerStyle={{ flexGrow: 1 }}
         data={[1]} // Dummy data to create a single item for header
         renderItem={() => (
           <View>
-            <View className="bg-white h-fit rounded-md p-2">
+            <View className="bg-white h-fit rounded-md m-1 p-2 shadow-lg shadow-blue-700">
               <Text className="text-[24px] font-semibold "> Welcome Back,</Text>
               {user && (
                 <Text className="ml-2 uppercase text-lg">{user.username}</Text>
@@ -160,7 +164,7 @@ export default function HomeScreen() {
 
             {/* Horizontal FlatList */}
             <FlatList
-              className="bg-white mt-2 rounded-md"
+              className="bg-white rounded-md my-3 mx-1 p-2 shadow-lg shadow-blue-700"
               data={DATA}
               renderItem={({ item }) => (
                 <Item title={item.title} imageUrl={item.imageUrl} />
@@ -168,31 +172,41 @@ export default function HomeScreen() {
               keyExtractor={(item) => item.id}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
-              scrollEnabled={true}
-              style={{ marginBottom: 10 }} // Add margin to separate the lists
+              scrollEnabled={true} // Add margin to separate the lists
             />
 
             {/* Links Section */}
-            <View className="space-y-4">
-              <Link href="/(auth)/sign-in">
-                <Text className="text-blue-600">Sign In</Text>
-              </Link>
+            <View className="p-2">
+              <Text className="text-lg font-semibold">Upcomming Events</Text>
             </View>
 
             {/* Vertical FlatList */}
-            <FlatList
+            {/* <FlatList
               className="bg-white mt-2 rounded-md"
-              data={DATA}
-              renderItem={({ item }) => (
-                <Item title={item.title} imageUrl={item.imageUrl} />
+              data={events}
+              renderItem={({ event }) => (
+                <Event event={event} imageUrl={item.imageUrl} />
               )}
               keyExtractor={(item) => item.id}
               showsVerticalScrollIndicator={true}
-              scrollEnabled={true} // Ensure vertical scrolling works
+              scrollEnabled={true}
+            /> */}
+
+            <FlatList
+              className="bg-white rounded-md p-2"
+              data={events}
+              renderItem={({ item }) => <Event event={item} />}
+              keyExtractor={(event) => event.$id}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isRefreshing}
+                  onRefresh={onRefresh}
+                />
+              }
             />
           </View>
         )}
-        keyExtractor={() => "header"} // Dummy key extractor
+        keyExtractor={() => "header"}
         showsVerticalScrollIndicator={true} // Show vertical scroll indicator
       />
 

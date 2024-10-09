@@ -1,3 +1,4 @@
+import React from "react";
 import { ActivityIndicator, Text, TouchableOpacity } from "react-native";
 
 import { GestureResponderEvent } from "react-native";

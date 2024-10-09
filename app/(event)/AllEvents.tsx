@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
   Image,
   StatusBar,
+  FlatList,
+  RefreshControl,
 } from "react-native";
 import { useGlobalContext } from "@/context/Globalprovider";
 import { getEvents } from "@/lib/appwrite";
 import EventListItem from "@/components/EventListItem";
 import waves from "../../assets/images/wave.jpeg";
 import { router } from "expo-router";
-import useAppwrite from "@/lib/useAppwrite";
 
 interface Event {
   $id: string;
@@ -36,6 +37,7 @@ const AllEvents: React.FC = () => {
   }
 
   const [events, setEvents] = useState<Event[]>([]);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const getData = async () => {
     const documents = await getEvents();
@@ -57,9 +59,18 @@ const AllEvents: React.FC = () => {
     getData();
   }, []);
 
+  const refetch = async() => getData();
+
+  
+  const onRefresh = async() => {
+    setIsRefreshing(true);
+    await refetch();
+    setIsRefreshing(false);
+  }
+
   return (
     <SafeAreaView className="w-full h-full bg-blue-50">
-      <ScrollView className="">
+      {/* <ScrollView className=""> */}
         <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
         <View className="mt-4">
           <View className="px-6">
@@ -78,12 +89,20 @@ const AllEvents: React.FC = () => {
             </TouchableOpacity>
           </View>
 
-          {events.map((event) => (
+          {/* put the event list here inside a flatlist */}
+          <FlatList
+            data={events}
+            renderItem={({ item }) => <EventListItem event={item} />}
+            keyExtractor={(event) => event.$id}
+            refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
+          />
+
+          {/* {events.map((event) => (
             <EventListItem key={event.$id} event={event} />
-          ))}
+          ))} */}
           
         </View>
-      </ScrollView>
+      {/* </ScrollView> */}
       <StatusBar barStyle="dark-content" />
     </SafeAreaView>
   );
