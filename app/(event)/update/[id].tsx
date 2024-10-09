@@ -1,10 +1,8 @@
 import { View, Text, ScrollView, Image, StatusBar, Alert } from "react-native";
-import waves from "@/assets/images/wave.jpeg"; // Adjust the path as necessary
+import waves from "@/assets/images/wave.jpeg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
-import { Link, router, useLocalSearchParams } from "expo-router";
-import DateField from "@/components/DateField";
-import TimeField from "@/components/TimeField";
+import { router, useLocalSearchParams } from "expo-router";
 import TextField from "@/components/TextField";
 import SolidButton from "@/components/SolidButton";
 import { useGlobalContext } from "@/context/Globalprovider";
@@ -43,7 +41,9 @@ export default function UpdateEventScreen() {
     organizer: "",
     imgUrl: "",
   });
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isSubmitting, setSubmitting] = React.useState(false);
 
   const getData = async () => {
     setIsLoading(true);
@@ -68,8 +68,6 @@ export default function UpdateEventScreen() {
     getData();
   }, []);
 
-  const [isSubmitting, setSubmitting] = React.useState(false);
-
   const submit = async () => {
     if (
       form.title === "" ||
@@ -88,19 +86,6 @@ export default function UpdateEventScreen() {
 
       if (updatedEvent) {
         Alert.alert("Success", "Event updated successfully");
-
-        // //clean up the form
-        // setForm({
-        //   $id: "",
-        //   title: "",
-        //   type: "",
-        //   description: "",
-        //   date: "",
-        //   time: "",
-        //   location: "",
-        //   organizer: "",
-        //   imgUrl: "",
-        // });
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -113,7 +98,11 @@ export default function UpdateEventScreen() {
     }
   };
 
-  return (
+  return isLoading ? (
+    <View className="flex-1 justify-center items-center">
+      <Text className="text-lg font-bold">Loading...</Text>
+    </View>
+  ) : (
     <SafeAreaView>
       <StatusBar barStyle="dark-content" />
       <ScrollView className="-mt-10">
@@ -210,8 +199,8 @@ export default function UpdateEventScreen() {
                 setForm({ ...form, imgUrl: e });
               }}
               otherStyles="mt-4"
-              keyboardType="default"/
-            >
+              keyboardType="default"
+            />
 
             <View className="flex flex-row">
               <View className="flex-1 flex-col">
@@ -228,7 +217,7 @@ export default function UpdateEventScreen() {
           </View>
         </View>
       </ScrollView>
-      <StatusBar translucent={true} barStyle={"light-content"}/>
+      <StatusBar translucent={true} barStyle={"light-content"} />
     </SafeAreaView>
   );
 }
