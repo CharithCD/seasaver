@@ -61,7 +61,7 @@ const AllEvents: React.FC = () => {
 
   const refetch = async() => getData();
 
-  
+
   const onRefresh = async() => {
     setIsRefreshing(true);
     await refetch();
@@ -97,9 +97,6 @@ const AllEvents: React.FC = () => {
             refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
           />
 
-          {/* {events.map((event) => (
-            <EventListItem key={event.$id} event={event} />
-          ))} */}
           
         </View>
       {/* </ScrollView> */}

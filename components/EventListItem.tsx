@@ -4,9 +4,11 @@ import { FontFamily, Color } from "../GlobalStyles";
 import logo from "../assets/images/logo.png";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Fontisto from "@expo/vector-icons/Fontisto";
+import { router } from "expo-router";
 
 interface EventProps {
   event: {
+    $id: string;
     id: number;
     title: string;
     type: string;
@@ -43,7 +45,9 @@ const Event: React.FC<EventProps> = ({ event }) => {
       </View>
 
       <View className="flex flex-row items-center ml-4">
-        <Pressable onPress={() => {}} className="p-2 rounded-full bg-gray-100">
+        <Pressable onPress={() => {
+          router.push(`/(event)/update/${event.$id}`);
+        }} className="p-2 rounded-full bg-gray-100">
           <Fontisto name="nav-icon-grid-a" size={20} color={"#006FFD"} />
         </Pressable>
       </View>

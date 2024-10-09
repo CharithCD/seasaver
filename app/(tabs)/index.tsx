@@ -135,18 +135,6 @@ export default function HomeScreen() {
               <Text className="text-lg font-semibold">Upcomming Events</Text>
             </View>
 
-            {/* Vertical FlatList */}
-            {/* <FlatList
-              className="bg-white mt-2 rounded-md"
-              data={events}
-              renderItem={({ event }) => (
-                <Event event={event} imageUrl={item.imageUrl} />
-              )}
-              keyExtractor={(item) => item.id}
-              showsVerticalScrollIndicator={true}
-              scrollEnabled={true}
-            /> */}
-
             <FlatList
               className="bg-white rounded-md p-2"
               data={events}

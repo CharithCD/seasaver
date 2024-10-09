@@ -189,29 +189,31 @@ export async function addEvent(form: {
 }
 
 //update Event
-export async function updateEvent(
-  id: string,
-  title: string,
-  description: string,
-  date: Date,
-  location: string,
-  time: Date,
-  organizer: string,
-  type: string
-) {
+interface Event {
+  $id: string;
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  time: string;
+  organizer: string;
+  type: string;
+}
+
+export async function updateEvent(event: Event) {
   try {
     const updatedEvent = await databases.updateDocument(
-      appwriteConfig.databaseId,
-      "6703b5e0001f1f3e2e3b",
-      id,
+      databaseId,
+      eventCollectionId,
+      event.$id,
       {
-        title: title,
-        description: description,
-        date: date,
-        location: location,
-        time: time,
-        organizer: organizer,
-        type: type,
+        title: event.title,
+        description: event.description,
+        date: event.date,
+        location: event.location,
+        time: event.time,
+        organizer: event.organizer,
+        type: event.type,
       }
     );
 
