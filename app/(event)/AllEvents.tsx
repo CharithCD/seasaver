@@ -88,17 +88,23 @@ const AllEvents: React.FC = () => {
           </TouchableOpacity>
         </View>
 
-        {/* put the event list here inside a flatlist */}
-        <FlatList
-          data={events}
-          renderItem={({ item }) => <EventListItem event={item} />}
-          keyExtractor={(event) => event.$id}
-          refreshControl={
-            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-          }
-        />
+        {events.length === 0 && (
+          <View className="flex justify-center items-center">
+            <Text className="text-lg text-gray-500">No events available</Text>
+          </View>
+        )}
+        {events.length > 0 && (
+          <FlatList
+            data={events}
+            renderItem={({ item }) => <EventListItem event={item} />}
+            keyExtractor={(event) => event.$id}
+            refreshControl={
+              <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+            }
+          />
+        )}
       </View>
-      {/* </ScrollView> */}
+
       <StatusBar translucent={true} barStyle={"light-content"} />
     </SafeAreaView>
   );

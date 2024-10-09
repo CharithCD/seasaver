@@ -36,7 +36,6 @@ export default function EventDetailsScreen() {
   const { id } = useLocalSearchParams() as { id: string };
 
   const [events, setEvents] = useState<Event[]>([]);
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getData = async () => {

@@ -19,7 +19,7 @@ interface Event {
   time: string;
   location: string;
   organizer: string;
-  imgUrl?: string;
+  imgUrl: string;
 }
 
 export default function UpdateEventScreen() {
@@ -146,14 +146,6 @@ export default function UpdateEventScreen() {
               otherStyles="mt-4"
               keyboardType="email-address"
             />
-            {/* <DateField
-              title="Event Date"
-              date={form.date}
-              handleDateChange={(date: Date) =>
-                setForm({ ...form, date: date })
-              }
-              otherStyles="mt-4"
-            /> */}
 
             <TextField
               title="Event Date"
@@ -165,13 +157,6 @@ export default function UpdateEventScreen() {
               otherStyles="mt-4"
               keyboardType="default"
             />
-
-            {/* <TimeField
-              title="Event Time"
-              time={form.time}
-              handleTimeChange={(time: Date) => setForm({ ...form, time })}
-              otherStyles="mt-4"
-            /> */}
 
             <TextField
               title="Event Time"
@@ -216,6 +201,17 @@ export default function UpdateEventScreen() {
               otherStyles="mt-4"
               keyboardType="default"
             />
+
+            <TextField
+              title="Image URL"
+              value={form.imgUrl}
+              placeholder="Image URL"
+              handleChangeText={(e: string) => {
+                setForm({ ...form, imgUrl: e });
+              }}
+              otherStyles="mt-4"
+              keyboardType="default"/
+            >
 
             <View className="flex flex-row">
               <View className="flex-1 flex-col">

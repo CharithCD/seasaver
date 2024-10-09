@@ -12,9 +12,11 @@ import React from "react";
 export default function ProfileScreen() {
   const { user, setUser, setIsLogged, isAdmin, setIsAdmin } = useGlobalContext();
   
-  if(user){
-    setIsAdmin(user.role == "admin");
-  }
+  React.useEffect(() => {
+    if (user) {
+      setIsAdmin(user.role === "admin");
+    }
+  }, [user]);
 
   if (!user) {
     router.replace("/(auth)/sign-in");

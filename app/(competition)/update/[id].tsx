@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, Image, StatusBar, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
-import waves from "../../assets/images/wave.jpeg";
+import waves from "@/assets/images/wave.jpeg";
 import TextField from "@/components/TextField";
 import SolidButton from "@/components/SolidButton";
 import { useGlobalContext } from "@/context/Globalprovider";
@@ -79,7 +79,6 @@ export default function UpdateCompetitionScreen() {
 
       if (updatedCompetition) {
         Alert.alert("Success", "Competition updated successfully");
-        router.replace("/(competition)/AddCompetition");
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -92,7 +91,11 @@ export default function UpdateCompetitionScreen() {
     }
   };
 
-  return (
+  return isLoading ? (
+    <View className="flex-1 justify-center items-center">
+      <Text className="text-lg font-bold">Loading...</Text>
+    </View>
+  ) : (
     <SafeAreaView>
       <StatusBar barStyle="dark-content" />
       <ScrollView className="-mt-10">
@@ -159,13 +162,26 @@ export default function UpdateCompetitionScreen() {
               keyboardType="default"
             />
 
+            {/* <TextField
+                title="Image URL"
+                value={form.imgUrl}
+                placeholder="Image URL"
+                handleChangeText={(e: string) => {
+                  setForm({ ...form, imgUrl: e });
+                }}
+                otherStyles="mt-4"
+                keyboardType="default"
+              /> */}
+
             <View className="flex flex-row">
               <View className="flex-1 flex-col">
                 <SolidButton
                   title="Update"
-                  handlePress={() => {}}
+                  handlePress={() => {
+                    submit();
+                  }}
                   containerStyles="mt-6"
-                  isLoading={false}
+                  isLoading={isSubmitting}
                 />
               </View>
             </View>

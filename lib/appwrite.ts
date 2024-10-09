@@ -16,7 +16,7 @@ export const appwriteConfig = {
   userCollectionId: "670378ea001d91b26686",
   eventCollectionId: "6704fb7c001f9b71da21",
   requestCollectionId: "6704fd230004142fc914",
-  competitionCollectionId: "",
+  competitionCollectionId: "67069767003524bf141a",
 };
 
 const {
@@ -338,8 +338,6 @@ export async function addCompetition(form: {
   imgUrl: string;
 }) {
   try {
-    const user = await getCurrentUser();
-    if (!user) throw Error;
     const newCompetition = await databases.createDocument(
       databaseId,
       competitionCollectionId,
@@ -351,7 +349,6 @@ export async function addCompetition(form: {
         time: form.time,
         description: form.description,
         imgUrl: form.imgUrl,
-        createdBy: user.$id,
       }
     );
 

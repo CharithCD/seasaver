@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
-  ScrollView,
   View,
   Text,
   TouchableOpacity,
@@ -63,32 +62,6 @@ const AllCompetitions = () => {
     setIsRefreshing(false);
   };
 
-  // const competitions = [
-  //   {
-  //     id: "1",
-  //     title: "Competition 1",
-  //     location: "Location 1",
-  //     date: "Date 1",
-  //     time: "Time 1",
-  //     description: "Description 1",
-  //   },
-  //   {
-  //     id: "2",
-  //     title: "Competition 2",
-  //     location: "Location 2",
-  //     date: "Date 2",
-  //     time: "Time 2",
-  //     description: "Description 2",
-  //   },
-  //   {
-  //     id: "3",
-  //     title: "Competition 3",
-  //     location: "Location 3",
-  //     date: "Date 3",
-  //     time: "Time 3",
-  //     description: "Description 3",
-  //   },
-  // ];
   return (
     <SafeAreaView className="w-full h-full bg-blue-50">
       <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
@@ -102,14 +75,22 @@ const AllCompetitions = () => {
           </TouchableOpacity>
         </View>
 
-        <FlatList
-          data={competition}
-          renderItem={({ item }) => <CompetitionListItem event={item} />}
-          keyExtractor={(event) => event.$id}
-          refreshControl={
-            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
-          }
-        />
+        {competition.length === 0 && (
+          <View className="flex justify-center items-center">
+            <Text className="text-lg">No Competitions available</Text>
+          </View>
+        )}
+
+        {competition.length > 0 && (
+          <FlatList
+            data={competition}
+            renderItem={({ item }) => <CompetitionListItem {...item} />}
+            keyExtractor={(event) => event.$id}
+            refreshControl={
+              <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+            }
+          />
+        )}
       </View>
       <StatusBar barStyle="dark-content" />
     </SafeAreaView>

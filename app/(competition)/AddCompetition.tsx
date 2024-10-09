@@ -35,7 +35,7 @@ export default function AddCompetitionScreen() {
       const newCompetition = await addCompetition(form);
 
       if (newCompetition) {
-        Alert.alert("Success", "Event added successfully");
+        Alert.alert("Success", "Competition added successfully");
 
         setForm({
           title: "",
@@ -123,7 +123,16 @@ export default function AddCompetitionScreen() {
               otherStyles="mt-4"
               keyboardType="default"
             />
-
+            <TextField
+              title="Image URL"
+              value={form.imgUrl}
+              placeholder="Image URL"
+              handleChangeText={(e: string) => {
+                setForm({ ...form, imgUrl: e });
+              }}
+              otherStyles="mt-4"
+              keyboardType="default"
+            />
             <View className="flex flex-row">
               <View className="flex-1 flex-col">
                 <SolidButton
