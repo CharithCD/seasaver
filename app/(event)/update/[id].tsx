@@ -232,6 +232,7 @@ export default function UpdateEventScreen() {
           </View>
         </View>
       </ScrollView>
+      <StatusBar translucent={true} barStyle={"light-content"}/>
     </SafeAreaView>
   );
 }

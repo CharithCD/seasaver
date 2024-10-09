@@ -92,6 +92,7 @@ export default function AddRequestScreen() {
 
           </View>
         </View>
+        <StatusBar translucent={true} barStyle={"light-content"}/>
       </ScrollView>
     </SafeAreaView>
   );

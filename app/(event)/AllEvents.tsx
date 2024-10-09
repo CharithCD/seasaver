@@ -59,48 +59,47 @@ const AllEvents: React.FC = () => {
     getData();
   }, []);
 
-  const refetch = async() => getData();
+  const refetch = async () => getData();
 
-
-  const onRefresh = async() => {
+  const onRefresh = async () => {
     setIsRefreshing(true);
     await refetch();
     setIsRefreshing(false);
-  }
+  };
 
   return (
     <SafeAreaView className="w-full h-full bg-blue-50">
       {/* <ScrollView className=""> */}
-        <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
-        <View className="mt-4">
-          <View className="px-6">
-            <Text className="text-lg font-bold">All Events</Text>
-            <Text className="mt-2 text-sm text-justify text-gray-500">
-              Here are all the events that are coming up. Click on an event to
-              see more details.
-            </Text>
-          </View>
-          <View className="flex justify-center items-end p-4">
-            <TouchableOpacity
-              className="p-2 bg-primary rounded-lg"
-              onPress={() => router.push("/(event)/AddEvent")}
-            >
-              <Text className="text-white">Add Event</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* put the event list here inside a flatlist */}
-          <FlatList
-            data={events}
-            renderItem={({ item }) => <EventListItem event={item} />}
-            keyExtractor={(event) => event.$id}
-            refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />}
-          />
-
-          
+      <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
+      <View className="mt-4">
+        <View className="px-6">
+          <Text className="text-lg font-bold">All Events</Text>
+          <Text className="mt-2 text-sm text-justify text-gray-500">
+            Here are all the events that are coming up. Click on an event to see
+            more details.
+          </Text>
         </View>
+        <View className="flex justify-center items-end p-4">
+          <TouchableOpacity
+            className="p-2 bg-primary rounded-lg"
+            onPress={() => router.push("/(event)/AddEvent")}
+          >
+            <Text className="text-white">Add Event</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* put the event list here inside a flatlist */}
+        <FlatList
+          data={events}
+          renderItem={({ item }) => <EventListItem event={item} />}
+          keyExtractor={(event) => event.$id}
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }
+        />
+      </View>
       {/* </ScrollView> */}
-      <StatusBar barStyle="dark-content" />
+      <StatusBar translucent={true} barStyle={"light-content"} />
     </SafeAreaView>
   );
 };

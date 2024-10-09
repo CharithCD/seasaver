@@ -18,8 +18,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
-
 const DATA = [
   {
     id: "1",
@@ -47,9 +45,6 @@ const DATA = [
   },
 ];
 
-
-
-
 interface Event {
   $id: string;
   title: string;
@@ -61,7 +56,6 @@ interface Event {
   organizer: string;
   imgUrl?: string;
 }
-
 
 export default function HomeScreen() {
   const { user } = useGlobalContext();
@@ -102,7 +96,6 @@ export default function HomeScreen() {
     setIsRefreshing(false);
   };
 
-
   return (
     <SafeAreaView className="w-full h-full p-3 bg-white">
       <FlatList
@@ -113,7 +106,7 @@ export default function HomeScreen() {
             <View className="bg-white h-fit rounded-md m-1 p-2 shadow-lg shadow-blue-700">
               <Text className="text-[24px] ">👋 Welcome Back,</Text>
               {user && (
-              <Text className="ml-2 text-lg">✨ @{user.username} ✨</Text>
+                <Text className="ml-2 text-lg">✨ @{user.username} ✨</Text>
               )}
             </View>
 
@@ -152,14 +145,11 @@ export default function HomeScreen() {
         keyExtractor={() => "header"}
         showsVerticalScrollIndicator={true}
         refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
-          />
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
         } // Show vertical scroll indicator
       />
 
-      <StatusBar barStyle="dark-content" />
+      <StatusBar translucent={true} barStyle={"dark-content"} />
     </SafeAreaView>
   );
 }

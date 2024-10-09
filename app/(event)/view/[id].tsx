@@ -161,7 +161,7 @@ export default function EventDetailsScreen() {
           </>
         )}
       </ScrollView>
-      <StatusBar />
+      <StatusBar translucent={true} barStyle={"light-content"}/>
     </SafeAreaView>
   );
 }
