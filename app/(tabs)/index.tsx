@@ -1,3 +1,5 @@
+import HomescreenEvent from "@/components/HomescreenEvent";
+import ImageGallery from "@/components/ImageGallery";
 import { useGlobalContext } from "@/context/Globalprovider";
 import { getEvents } from "@/lib/appwrite";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -12,10 +14,11 @@ import {
   StatusBar,
   Dimensions,
   RefreshControl,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const { width } = Dimensions.get("window");
+
 
 const DATA = [
   {
@@ -44,25 +47,11 @@ const DATA = [
   },
 ];
 
-interface ItemProps {
-  title: string;
-  imageUrl: string;
-}
 
-const Item = ({ title, imageUrl }: ItemProps) => (
-  <View className="m-1 rounded-md shadow-lg shadow-black">
-    <Image
-      source={{ uri: imageUrl }}
-      style={{ width: width * 0.78, height: 160 }}
-      className="rounded-lg"
-      accessibilityLabel={title}
-    />
-  </View>
-);
+
 
 interface Event {
   $id: string;
-  id: number;
   title: string;
   type: string;
   description: string;
@@ -70,44 +59,9 @@ interface Event {
   time: string;
   location: string;
   organizer: string;
+  imgUrl?: string;
 }
 
-interface EventProps {
-  event: {
-    id: number;
-    title: string;
-    type: string;
-    description: string;
-    date: string;
-    time: string;
-    location: string;
-    organizer: string;
-  };
-}
-const Event: React.FC<EventProps> = ({ event }) => (
-  <View className="flex flex-row bg-white p-4 m-1 rounded-lg shadow-lg shadow-blue-700">
-    <View className="flex flex-col w-1/2 text-justify pr-2">
-      <Text className="text-[18px] font-semibold leading-6 text-gray-800">
-        {event.title}
-      </Text>
-    </View>
-
-    <View className="flex flex-col w-1/3">
-      <View className="flex flex-row justify-between items-center mb-2">
-        <View className="grid grid-cols-2">
-          <View className="flex flex-row items-center gap-2">
-            <FontAwesome name="calendar" size={16} color={"#006FFD"} />
-            <Text className="text-[14px] text-gray-600">{event.date}</Text>
-          </View>
-          <View className="flex flex-row items-center gap-2">
-            <FontAwesome name="clock-o" size={16} color={"#006FFD"} />
-            <Text className="text-[14px] text-gray-600">{event.time}</Text>
-          </View>
-        </View>
-      </View>
-    </View>
-  </View>
-);
 
 export default function HomeScreen() {
   const { user } = useGlobalContext();
@@ -124,7 +78,6 @@ export default function HomeScreen() {
     const documents = await getEvents();
     const data: Event[] = documents.map((doc: any) => ({
       $id: doc.$id,
-      id: doc.id,
       title: doc.title,
       type: doc.type,
       description: doc.description,
@@ -132,6 +85,7 @@ export default function HomeScreen() {
       time: doc.time,
       location: doc.location,
       organizer: doc.organizer,
+      imgUrl: doc.imgUrl,
     }));
     setEvents(data);
   };
@@ -148,6 +102,7 @@ export default function HomeScreen() {
     setIsRefreshing(false);
   };
 
+
   return (
     <SafeAreaView className="w-full h-full p-3 bg-white">
       <FlatList
@@ -156,9 +111,9 @@ export default function HomeScreen() {
         renderItem={() => (
           <View>
             <View className="bg-white h-fit rounded-md m-1 p-2 shadow-lg shadow-blue-700">
-              <Text className="text-[24px] font-semibold "> Welcome Back,</Text>
+              <Text className="text-[24px] ">👋 Welcome Back,</Text>
               {user && (
-                <Text className="ml-2 uppercase text-lg">{user.username}</Text>
+              <Text className="ml-2 text-lg">✨ @{user.username} ✨</Text>
               )}
             </View>
 
@@ -167,7 +122,7 @@ export default function HomeScreen() {
               className="bg-white rounded-md my-3 mx-1 p-2 shadow-lg shadow-blue-700"
               data={DATA}
               renderItem={({ item }) => (
-                <Item title={item.title} imageUrl={item.imageUrl} />
+                <ImageGallery title={item.title} imageUrl={item.imageUrl} />
               )}
               keyExtractor={(item) => item.id}
               horizontal={true}
@@ -195,7 +150,7 @@ export default function HomeScreen() {
             <FlatList
               className="bg-white rounded-md p-2"
               data={events}
-              renderItem={({ item }) => <Event event={item} />}
+              renderItem={({ item }) => <HomescreenEvent event={item} />}
               keyExtractor={(event) => event.$id}
               refreshControl={
                 <RefreshControl

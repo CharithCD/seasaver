@@ -245,7 +245,6 @@ export async function getEvents() {
       eventCollectionId,
       []
     );
-
     return events.documents;
   } catch (error) {
     throw new Error(String(error));

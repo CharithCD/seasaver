@@ -1,38 +1,20 @@
+import { View, Text, Image, Dimensions } from "react-native";
 import React from "react";
-import { View, FlatList, Dimensions, Image } from "react-native";
-import { styled } from "nativewind";
-
 const { width } = Dimensions.get("window");
 
-// Local image (wave.jpeg) using require
-const wave = require("@/assets/images/wave.jpeg");
+interface ItemProps {
+  title: string;
+  imageUrl: string;
+}
 
-// Dummy data for the images
-const images = [
-  { id: "1", src: wave },
-  { id: "2", src: wave },
-  { id: "3", src: wave },
-  // Add more images as needed
-];
-
-const ImageGallery = () => {
+const ImageGallery = ({ title, imageUrl }: ItemProps) => {
   return (
-    <View className="flex-1 py-5">
-      <FlatList
-        data={images}
-        renderItem={({ item }) => (
-          <View className="mr-3">
-            {/* Displaying the local image */}
-            <Image
-              source={item.src}
-              style={{ width: width * 0.8, height: 200 }}
-              className="rounded-lg"
-            />
-          </View>
-        )}
-        keyExtractor={(item) => item.id}
-        horizontal
-        showsHorizontalScrollIndicator={false}
+    <View className="m-1 rounded-md shadow-lg shadow-black">
+      <Image
+        source={{ uri: imageUrl }}
+        style={{ width: width * 0.78, height: 160 }}
+        className="rounded-lg"
+        accessibilityLabel={title}
       />
     </View>
   );
