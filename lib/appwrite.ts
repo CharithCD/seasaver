@@ -1,4 +1,11 @@
-import { Account, Avatars, Client, Databases, ID, Query } from "react-native-appwrite";
+import {
+  Account,
+  Avatars,
+  Client,
+  Databases,
+  ID,
+  Query,
+} from "react-native-appwrite";
 
 //online
 export const appwriteConfig = {
@@ -11,7 +18,15 @@ export const appwriteConfig = {
   requestCollectionId: "6704fd230004142fc914",
 };
 
-const { endpoint, platform, project, databaseId, userCollectionId, eventCollectionId, requestCollectionId } = appwriteConfig;
+const {
+  endpoint,
+  platform,
+  project,
+  databaseId,
+  userCollectionId,
+  eventCollectionId,
+  requestCollectionId,
+} = appwriteConfig;
 
 //localhost
 // export const appwriteConfig = {
@@ -138,19 +153,16 @@ export async function signOut() {
   }
 }
 
-
 //Add Event
-export async function addEvent(
-  form: {
-    title: string;
-    description: string;
-    date: string;
-    location: string;
-    time: string;
-    organizer: string;
-    type: string;
-  }
-) {
+export async function addEvent(form: {
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  time: string;
+  organizer: string;
+  type: string;
+}) {
   try {
     const user = await getCurrentUser();
     if (!user) throw Error;
@@ -185,7 +197,7 @@ export async function updateEvent(
   location: string,
   time: Date,
   organizer: string,
-  type: string,
+  type: string
 ) {
   try {
     const updatedEvent = await databases.updateDocument(
@@ -199,7 +211,7 @@ export async function updateEvent(
         location: location,
         time: time,
         organizer: organizer,
-        type: type
+        type: type,
       }
     );
 
@@ -215,7 +227,7 @@ export async function addRequest(
   email: string,
   phone: string,
   description: string,
-  organizer: string,
+  organizer: string
 ) {
   try {
     const newRequest = await databases.createDocument(
@@ -246,6 +258,21 @@ export async function getEvents() {
       []
     );
     return events.documents;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+//get one event by id
+export async function getEventById(id: string) {
+  try {
+    const event = await databases.listDocuments(
+      databaseId,
+      eventCollectionId,
+      [Query.equal("$id", id)]
+    );
+    
+    return event.documents;
   } catch (error) {
     throw new Error(String(error));
   }

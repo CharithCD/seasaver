@@ -162,7 +162,13 @@ export default function HomeScreen() {
           </View>
         )}
         keyExtractor={() => "header"}
-        showsVerticalScrollIndicator={true} // Show vertical scroll indicator
+        showsVerticalScrollIndicator={true}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+          />
+        } // Show vertical scroll indicator
       />
 
       <StatusBar barStyle="dark-content" />

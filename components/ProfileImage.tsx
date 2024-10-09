@@ -10,7 +10,7 @@ interface ProfileImageProps {
 const ProfileImage: React.FC<ProfileImageProps> = ({ fullName, username, logo }) => {
 
   return (
-    <View className="flex flex-row p-4 bg-white rounded-lg">
+    <View className="flex flex-row p-4 bg-white rounded-lg shadow-lg shadow-blue-400">
       <Image
         className="rounded-full border-2 border-red-100 w-20 h-20"
         resizeMode="cover"

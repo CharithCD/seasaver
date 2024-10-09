@@ -5,6 +5,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 interface EventProps {
   event: {
+    $id: string;
     title: string;
     type: string;
     description: string;
@@ -59,7 +60,7 @@ const HomescreenEvent: React.FC<EventProps> = ({ event }) => {
         <View className="flex flex-row items-center mt-2">
           <TouchableOpacity
             className="px-4 py-1 bg-primary rounded-full"
-            onPress={() => router.push(`/(event)/AllEvents`)}
+            onPress={() => router.push(`/(event)/view/${event.$id}`)}
           >
             <Text className="text-white text-[12px]">View Event</Text>
           </TouchableOpacity>

@@ -31,11 +31,11 @@ export default function ProfileScreen() {
 
 
   return (
-    <SafeAreaView className="w-full h-full p-4 bg-blue-50">
+    <SafeAreaView className="w-full h-full p-4">
 
       <ProfileImage fullName={user.username} username={user.username} logo={user.avatar} />
 
-      <View className="space-y-4 bg-white rounded-lg my-4">
+      <View className="space-y-4 bg-white rounded-lg my-4 shadow-lg shadow-blue-400">
         <View className="flex flex-row justify-between px-6 py-4 items-center">
           <View className="flex flex-row">
             <TouchableOpacity
