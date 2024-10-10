@@ -23,6 +23,10 @@ const LinksList = [
         title: "Competitions",
         link: "/(competition)/AllCompetitions",
     },
+    {
+        title: "Competition Entries",
+        link: "/(compentry)/AllCompEntries",
+    }
   ];
 
 const AdminNavList = () => {

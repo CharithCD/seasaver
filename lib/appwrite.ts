@@ -19,6 +19,7 @@ export const appwriteConfig = {
   competitionCollectionId: "67069767003524bf141a",
   blogCollectionId: "6707798200047291fef3",
   commentCollectionId: "670778220001b2aa4c47",
+  entryCollectionId: "6707e42a000e993c6e1d",
 };
 
 const {
@@ -32,6 +33,7 @@ const {
   competitionCollectionId,
   blogCollectionId,
   commentCollectionId,
+  entryCollectionId,
 } = appwriteConfig;
 
 //localhost
@@ -498,7 +500,11 @@ export async function getBlogById(id: string) {
 ///////////////////////////////////////
 
 //Add Comment
-export async function addComment($id: string, comment: string, form: { blogId: string; comment: string; }) {
+export async function addComment(
+  $id: string,
+  comment: string,
+  form: { blogId: string; comment: string }
+) {
   try {
     const user = await getCurrentUser();
     if (!user) throw Error;
@@ -553,4 +559,29 @@ export async function getComments(blogId: string) {
   }
 }
 
+//////////////////////////////
+//Get All Entries
+export async function getEntries() {
+  try {
+    const entries = await databases.listDocuments(
+      databaseId,
+      entryCollectionId,
+      []
+    );
+    return entries.documents;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
 
+//Get One Entry by id
+export async function getEntryById(id: string) {
+  try {
+    const entry = await databases.listDocuments(databaseId, entryCollectionId, [
+      Query.equal("$id", id),
+    ]);
+    return entry.documents;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}

@@ -16,6 +16,7 @@ interface TextFieldProps {
   secureTextEntry?: boolean;
   multiline?: boolean;
   numberOfLines?: number;
+  editable?: boolean;
 }
 
 const TextField: React.FC<TextFieldProps> = ({
@@ -28,6 +29,7 @@ const TextField: React.FC<TextFieldProps> = ({
   secureTextEntry,
   multiline,
   numberOfLines,
+  editable,
 }) => {
   return (
     <View className={`space-y-1 ${otherStyles}`}>
@@ -42,6 +44,7 @@ const TextField: React.FC<TextFieldProps> = ({
           multiline={multiline}
           numberOfLines={numberOfLines}
           className="w-full py-2 text-base text-gray-900"
+          editable={editable}
         />
       </View>
     </View>
