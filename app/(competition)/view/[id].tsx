@@ -1,10 +1,11 @@
-import { View, ScrollView, Image, Text } from "react-native";
+import { View, ScrollView, Image, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "@/context/Globalprovider";
 import { getCompetitionById } from "@/lib/appwrite";
 import { router, useLocalSearchParams } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import SolidButton from "@/components/SolidButton";
 
 interface Competition {
   $id: string;
@@ -102,6 +103,15 @@ export default function ViewCompetitionScreen() {
           </View>
           <View className="px-4 mt-8">
             <Text className="text-sm text-gray-600 text-justify">{form.description}</Text>
+          </View>
+
+          <View className="p-4">
+            <TouchableOpacity
+              onPress={() => router.push("/(competition)/CompetitionDashboard")}
+              className="flex justify-center items-center mt-8 bg-primary py-2 rounded-xl"
+            >
+              <Text className="text-lg font-bold text-white">Participate</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>

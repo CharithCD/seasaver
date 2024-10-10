@@ -1,16 +1,11 @@
 import Loader from "@/components/Loader";
 import { useGlobalContext } from "@/context/Globalprovider";
 import { getEventById } from "@/lib/appwrite";
+import { Ionicons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  StatusBar,
-} from "react-native";
+import { View, Text, Image, ScrollView, StatusBar, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Event {
@@ -81,20 +76,13 @@ export default function EventDetailsScreen() {
                   backgroundColor: "#D1D5DB",
                 }}
               />
-              <FontAwesome
-                name="arrow-left"
-                size={18}
-                color="#006FFD"
+              <TouchableOpacity
                 onPress={() => router.back()}
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 16,
-                  backgroundColor: "rgba(255, 255, 255, 0.88)",
-                  padding: 8,
-                  borderRadius: 50,
-                }}
-              />
+                style={{ position: "absolute", top: 10, left: 10 }}
+                className="p-1 bg-gray-200 rounded-full"
+              >
+                <Ionicons name="close" size={28} color="black" />
+              </TouchableOpacity>
               <Text
                 className="absolute top-48 text-left text-base font-bold p-4 w-full text-gray-900"
                 style={{ backgroundColor: "rgba(255, 255, 255, 0.88)" }}
