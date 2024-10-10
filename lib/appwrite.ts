@@ -17,7 +17,8 @@ export const appwriteConfig = {
   eventCollectionId: "6704fb7c001f9b71da21",
   requestCollectionId: "6704fd230004142fc914",
   competitionCollectionId: "67069767003524bf141a",
-  blogCollectionId: "670745bb003190b55cfc",
+  blogCollectionId: "6707798200047291fef3",
+  commentCollectionId: "670778220001b2aa4c47",
 };
 
 const {
@@ -30,6 +31,7 @@ const {
   requestCollectionId,
   competitionCollectionId,
   blogCollectionId,
+  commentCollectionId,
 } = appwriteConfig;
 
 //localhost
@@ -492,3 +494,63 @@ export async function getBlogById(id: string) {
     throw new Error(String(error));
   }
 }
+
+///////////////////////////////////////
+
+//Add Comment
+export async function addComment($id: string, comment: string, form: { blogId: string; comment: string; }) {
+  try {
+    const user = await getCurrentUser();
+    if (!user) throw Error;
+
+    const newComment = await databases.createDocument(
+      databaseId,
+      commentCollectionId,
+      ID.unique(),
+      {
+        blog: form.blogId,
+        comment: form.comment,
+        user: user.$id,
+      }
+    );
+
+    return newComment;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+// //Update Comment
+// export async function updateComment(comment: Comment) {
+//   try {
+//     const updatedComment = await databases.updateDocument(
+//       databaseId,
+//       commentCollectionId,
+//       comment.$id,
+//       {
+//         blogId: comment.blogId,
+//         comment: comment.commment,
+//       }
+//     );
+
+//     return updatedComment;
+//   } catch (error) {
+//     throw new Error(String(error));
+//   }
+// }
+
+//Get All Comments of the blog
+export async function getComments(blogId: string) {
+  try {
+    const comments = await databases.listDocuments(
+      databaseId,
+      commentCollectionId,
+      [Query.equal("blog", blogId)]
+    );
+    return comments.documents;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+
