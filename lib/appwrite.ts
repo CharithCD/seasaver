@@ -17,6 +17,7 @@ export const appwriteConfig = {
   eventCollectionId: "6704fb7c001f9b71da21",
   requestCollectionId: "6704fd230004142fc914",
   competitionCollectionId: "67069767003524bf141a",
+  blogCollectionId: "670745bb003190b55cfc",
 };
 
 const {
@@ -28,6 +29,7 @@ const {
   eventCollectionId,
   requestCollectionId,
   competitionCollectionId,
+  blogCollectionId,
 } = appwriteConfig;
 
 //localhost
@@ -404,6 +406,88 @@ export async function getCompetitionById(id: string) {
       [Query.equal("$id", id)]
     );
     return competition.documents;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+////////////////////////////
+interface Blog {
+  $id: string;
+  title: string;
+  category: [string];
+  content: string;
+  imgUrl?: string;
+}
+
+//Add Blog
+export async function addBlog(form: {
+  title: string;
+  category: [string];
+  content: string;
+  imgUrl: string;
+}) {
+  try {
+    const newBlog = await databases.createDocument(
+      databaseId,
+      blogCollectionId,
+      ID.unique(),
+      {
+        title: form.title,
+        category: form.category,
+        content: form.content,
+        imgUrl: form.imgUrl,
+      }
+    );
+
+    return newBlog;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+//Update Blog
+export async function updateBlog(blog: Blog) {
+  try {
+    const updatedBlog = await databases.updateDocument(
+      databaseId,
+      blogCollectionId,
+      blog.$id,
+      {
+        title: blog.title,
+        category: blog.category,
+        content: blog.content,
+        imgUrl: blog.imgUrl,
+      }
+    );
+
+    return updatedBlog;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+//Get All Blogs
+export async function getBlogs() {
+  try {
+    const blogs = await databases.listDocuments(
+      databaseId,
+      blogCollectionId,
+      []
+    );
+    return blogs.documents;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}
+
+//Get One Blog by id
+export async function getBlogById(id: string) {
+  try {
+    const blog = await databases.listDocuments(databaseId, blogCollectionId, [
+      Query.equal("$id", id),
+    ]);
+    return blog.documents;
   } catch (error) {
     throw new Error(String(error));
   }

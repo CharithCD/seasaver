@@ -17,7 +17,7 @@ interface RequestProps {
 
 const Event: React.FC<RequestProps> = ({ request }) => {
   return (
-    <View className="flex flex-row bg-white p-6 my-2 mx-4 rounded-lg shadow-lg">
+    <View className="flex flex-row bg-white p-6 my-2 mx-4 rounded-lg shadow-lg justify-between">
       <View className="flex flex-col text-justify pr-2">
         <Text className="text-[18px] font-semibold leading-6 text-gray-800">
           {request.fullName}
@@ -25,7 +25,7 @@ const Event: React.FC<RequestProps> = ({ request }) => {
         <Text className="text-[14px] text-gray-600">{request.email}</Text>
         <Text className="text-[14px] text-gray-600">{request.phone}</Text>
         <Text className="text-[14px] text-gray-600 mt-1">
-          {request.description.length > 200 ? request.description.substring(0, 200) + "..." : request.description}
+          {request.description.length > 100 ? request.description.substring(0, 100) + "..." : request.description}
         </Text>
       </View>
 

@@ -1,6 +1,5 @@
 import { useGlobalContext } from "@/context/Globalprovider";
 import { getCompetitions } from "@/lib/appwrite";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {

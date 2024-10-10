@@ -181,6 +181,8 @@ export default function AddEventScreen() {
               }}
               otherStyles="mt-4"
               keyboardType="default"
+              multiline={true}
+              numberOfLines={8}
             />
 
             <View className="flex flex-row">
@@ -197,7 +199,7 @@ export default function AddEventScreen() {
             </View>
           </View>
         </View>
-        <StatusBar translucent={true} barStyle={"light-content"} />
+        <StatusBar translucent={true} barStyle={"dark-content"} />
       </ScrollView>
     </SafeAreaView>
   );

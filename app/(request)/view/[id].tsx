@@ -66,34 +66,34 @@ export default function RequestDetailsScreen() {
                 resizeMode="cover"
               />
             </View>
-            <View style={{ paddingHorizontal: 16, marginTop: 16, padding: 2 }}>
-              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                <Text style={{ fontSize: 24, fontWeight: "bold", color: "#333" }}>
+            <View className="py-4 mt-4 px-6">
+              <View className="flex flex-row items-center justify-between">
+                <Text className="text-2xl font-bold">
                   {requests[0].fullName}
                 </Text>
                 <FontAwesome name="user" size={24} color="#333" />
               </View>
-              <View style={{ marginTop: 8, flexDirection: "row", alignItems: "center" }}>
-                <FontAwesome name="envelope" size={16} color="#666" style={{ marginRight: 8 }} />
+              <View className="flex flex-row items-center mt-2">
+                <FontAwesome name="envelope" size={16} color="#666" style={{ marginRight: 12 }}  />
                 <Text style={{ color: "#666", fontSize: 16 }}>{requests[0].email}</Text>
               </View>
-              <View style={{ marginTop: 8, flexDirection: "row", alignItems: "center" }}>
-                <FontAwesome name="phone" size={16} color="#666" style={{ marginRight: 8 }} />
+              <View className="flex flex-row items-center mt-2">
+                <FontAwesome name="phone" size={16} color="#666" style={{ marginRight: 12 }} />
                 <Text style={{ color: "#666", fontSize: 16 }}>{requests[0].phone}</Text>
               </View>
-              <View style={{ marginTop: 16, flexDirection: "row", alignItems: "center" }}>
-                <FontAwesome name="users" size={16} color="#666" style={{ marginRight: 8 }} />
+              <View className="flex flex-row items-center mt-2">
+                <FontAwesome name="users" size={16} color="#666" style={{ marginRight: 12 }} />
                 <Text style={{ color: "#666", fontSize: 16 }}>{requests[0].organizer}</Text>
               </View>
-              <View style={{ marginTop: 16, flexDirection: "row", alignItems: "center", paddingHorizontal:4, marginRight:4 }}>
+              <View style={{ marginTop: 16, flexDirection: "row", alignItems: "center", paddingHorizontal:4, marginRight:12 }}>
                 <FontAwesome name="info-circle" size={16} color="#666" style={{ marginRight: 8 }} />
-                <Text style={{ color: "#666", fontSize: 16 }}>{requests[0].description}</Text>
+                <Text className="text-base text-gray-800 text-justify">{requests[0].description}</Text>
               </View>
             </View>
           </>
         )}
       </ScrollView>
-      <StatusBar translucent={true} barStyle={"light-content"} />
+      <StatusBar translucent={true} barStyle={"dark-content"} />
     </SafeAreaView>
   );
 }
