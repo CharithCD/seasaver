@@ -87,28 +87,29 @@ export default function ViewBlogScreen() {
               }}
             />
           </View>
+
+          <View className="px-4 mt-4">
+            <View className="flex flex-row flex-wrap">
+              {blog.category
+                .join(",")
+                .split(",")
+                .map((cat, index) => (
+                  <View
+                    key={index}
+                    className="flex-col items-center rounded-full bg-primary px-3 py-1 mt-2 mr-2"
+                  >
+                    <Text className="text-white text-[11px] uppercase">
+                      {cat.trim()}
+                    </Text>
+                  </View>
+                ))}
+            </View>
+          </View>
+
           <View className="px-4 mt-6">
             <Text className="text-xl font-bold">{blog.title}</Text>
           </View>
-          <View className="px-4">
-            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-              {blog.category.map((cat, index) => (
-                <View
-                  key={index}
-                  style={{
-                    backgroundColor: "#006FFD",
-                    borderRadius: 50,
-                    paddingVertical: 4,
-                    paddingHorizontal: 12,
-                    marginRight: 8,
-                    marginBottom: 8,
-                  }}
-                >
-                  <Text style={{ color: "#FFFFFF" }}>{cat}</Text>
-                </View>
-              ))}
-            </View>
-          </View>
+
           <View className="px-4 mt-8">
             <Text className="text-sm text-gray-600 text-justify">
               {blog.content}

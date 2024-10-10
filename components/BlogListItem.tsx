@@ -12,10 +12,10 @@ const BlogListItem = (blog: {
   imgUrl: string;
 }) => {
   return (
-    <View className="flex flex-row bg-white p-6 my-2 mx-4 rounded-lg shadow-lg justify-between">
-      <View className="flex flex-col w-2/3 text-justify pr-2">
+    <View className="flex flex-row bg-white p-6 my-2 mx-4 rounded-lg shadow-lg items-center justify-between">
+      <View className="flex flex-col  pr-2">
         <Text className="text-[18px] font-semibold leading-6 text-gray-800">
-          {blog.title}
+          {blog.title.substring(0, 70)}...
         </Text>
       </View>
 
@@ -38,7 +38,7 @@ const BlogListItem = (blog: {
         </View>
       </View> */}
 
-      <View className="flex flex-row items-center ml-4">
+      <View className="flex flex-col items-center ml-4">
         <Pressable
           onPress={() => {
             router.push(`/(blog)/update/${blog.$id}`);

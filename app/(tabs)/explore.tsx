@@ -79,18 +79,17 @@ export default function ExploreScreen() {
                       className="w-24 h-24 rounded-md"
                     />
                   </View>
-                  <View className="flex flex-col ml-2">
-                    <Text className="text-lg w-2/3 font-bold">
-                      {item.title}
+                  <View className="flex flex-col ml-2 w-2/3 px-2">
+                    <Text className="text-lg  font-bold">
+                    {item.title.substring(0, 20)}...
                     </Text>
                     <Text className="mt-1 text-gray-500">
                       Category: {item.category.join(", ")}
                     </Text>
                     
-                    <Text className="mt-1 text-gray-500">
-                      {item.content.substring(0, 100)}...
+                    <Text className="mt-1 text-gray-500 text-justify">
+                      {item.content.substring(0, 70)}...
                     </Text>
-
                   </View>
                 </View>
                 <View className="border border-gray-200 mt-4"></View>
