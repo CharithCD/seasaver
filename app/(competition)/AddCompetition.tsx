@@ -122,6 +122,8 @@ export default function AddCompetitionScreen() {
               }}
               otherStyles="mt-4"
               keyboardType="default"
+              multiline={true}
+              numberOfLines={4}
             />
             <TextField
               title="Image URL"
