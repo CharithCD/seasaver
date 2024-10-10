@@ -7,6 +7,7 @@ import {
   Alert,
   FlatList,
   RefreshControl,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useEffect, useState } from "react";
@@ -16,6 +17,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import SolidButton from "@/components/SolidButton";
 import DisplayComments from "@/components/DisplayComments";
+import { Ionicons } from "@expo/vector-icons";
 
 interface Blog {
   $id: string;
@@ -133,20 +135,13 @@ export default function ViewBlogScreen() {
                   backgroundColor: "#D1D5DB",
                 }}
               />
-              <FontAwesome
-                name="arrow-left"
-                size={18}
-                color="#006FFD"
+              <TouchableOpacity
                 onPress={() => router.back()}
-                style={{
-                  position: "absolute",
-                  top: 5,
-                  left: 16,
-                  backgroundColor: "rgba(255, 255, 255, 0.88)",
-                  padding: 8,
-                  borderRadius: 50,
-                }}
-              />
+                style={{ position: "absolute", top: 10, left: 10 }}
+                className="p-1 bg-gray-200 rounded-full"
+              >
+                <Ionicons name="close" size={28} color="black" />
+              </TouchableOpacity>
             </View>
 
             <View className="px-4 mt-4">

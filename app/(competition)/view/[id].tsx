@@ -5,7 +5,7 @@ import { useGlobalContext } from "@/context/Globalprovider";
 import { getCompetitionById } from "@/lib/appwrite";
 import { router, useLocalSearchParams } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import SolidButton from "@/components/SolidButton";
+import { Ionicons } from "@expo/vector-icons";
 
 interface Competition {
   $id: string;
@@ -28,7 +28,6 @@ export default function ViewCompetitionScreen() {
   const { id } = useLocalSearchParams() as { id: string };
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isSubmitting, setSubmitting] = React.useState(false);
   const [form, setForm] = React.useState<Competition>({
     $id: "",
     title: "",
@@ -79,30 +78,29 @@ export default function ViewCompetitionScreen() {
                 backgroundColor: "#D1D5DB",
               }}
             />
-            <FontAwesome
-              name="arrow-left"
-              size={18}
-              color="#006FFD"
+            <TouchableOpacity
               onPress={() => router.back()}
-              style={{
-                position: "absolute",
-                top: 5,
-                left: 16,
-                backgroundColor: "rgba(255, 255, 255, 0.88)",
-                padding: 8,
-                borderRadius: 50,
-              }}
-            />
+              style={{ position: "absolute", top: 10, left: 10 }}
+              className="p-1 bg-gray-200 rounded-full"
+            >
+              <Ionicons name="close" size={28} color="black" />
+            </TouchableOpacity>
           </View>
           <View className="px-4 mt-6">
             <Text className="text-xl font-bold">{form.title}</Text>
           </View>
           <View className="px-4">
-            <Text className="text-base font-semibold text-gray-700">Date: {form.date}</Text>
-            <Text className="text-base font-semibold text-gray-700">Location: {form.location}</Text>
+            <Text className="text-base font-semibold text-gray-700">
+              Date: {form.date}
+            </Text>
+            <Text className="text-base font-semibold text-gray-700">
+              Location: {form.location}
+            </Text>
           </View>
           <View className="px-4 mt-8">
-            <Text className="text-sm text-gray-600 text-justify">{form.description}</Text>
+            <Text className="text-sm text-gray-600 text-justify">
+              {form.description}
+            </Text>
           </View>
 
           <View className="p-4">
