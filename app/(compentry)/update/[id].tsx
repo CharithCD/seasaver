@@ -115,7 +115,7 @@ export default function UpdateEntryScreen() {
               handleChangeText={(text) =>
                 setForm({ ...form, user: { username: text } })
               }
-              editable={true}
+              editable={false}
             />
             <TextField
               title="Competition"
@@ -124,18 +124,21 @@ export default function UpdateEntryScreen() {
               handleChangeText={(text) =>
                 setForm({ ...form, competition: { title: text } })
               }
+                editable={false}
             />
             <TextField
               title="Date"
               value={form.date}
               placeholder="Date"
               handleChangeText={(text) => setForm({ ...form, date: text })}
+              editable={false}
             />
             <TextField
               title="Time"
               value={form.time}
               placeholder="Time"
               handleChangeText={(text) => setForm({ ...form, time: text })}
+                editable={false}
             />
             <TextField
               title="Note"
@@ -144,12 +147,13 @@ export default function UpdateEntryScreen() {
               handleChangeText={(text) => setForm({ ...form, note: text })}
               multiline={true}
               numberOfLines={4}
+              editable={false}
             />
 
             <View className="flex flex-row">
-              <View className="flex-1 flex-col">
+              <View className="flex flex-col w-1/2">
                 <SolidButton
-                  title="Submit"
+                  title="Approve"
                   handlePress={() => {}}
                   containerStyles="mt-6"
                   isLoading={isSubmitting}
