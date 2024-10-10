@@ -50,7 +50,7 @@ export default function ViewBlogScreen() {
   const [form, setForm] = React.useState<Comment>({
     comment: "",
   });
-  const [comments, setComments] = React.useState<Comment[]>([]);
+
   const [isSubmitting, setSubmitting] = React.useState(false);
 
   const getData = async () => {
@@ -72,6 +72,14 @@ export default function ViewBlogScreen() {
   useEffect(() => {
     getData();
   }, []);
+
+  const refetch = async () => getData();
+
+  const onRefresh = async () => {
+    setIsLoading(true);
+    await refetch();
+    setIsLoading(false);
+  };
 
   //submit comment
   const submit = async () => {
@@ -203,6 +211,9 @@ export default function ViewBlogScreen() {
         )}
         keyExtractor={() => "header"}
         showsVerticalScrollIndicator={true}
+        refreshControl={
+          <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+        }
       />
     </SafeAreaView>
   );
