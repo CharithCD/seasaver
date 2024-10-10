@@ -10,7 +10,7 @@ export default function RootLayout() {
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(tabs)" />
       </Stack>
-      <StatusBar translucent={true} barStyle={"light-content"}/>
+      <StatusBar translucent={true} barStyle={"dark-content"}/>
     </Globalprovider>
   );
 }

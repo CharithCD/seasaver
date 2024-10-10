@@ -189,6 +189,8 @@ export default function UpdateEventScreen() {
               }}
               otherStyles="mt-4"
               keyboardType="default"
+              multiline={true}
+              numberOfLines={4}
             />
 
             <TextField
@@ -217,7 +219,7 @@ export default function UpdateEventScreen() {
           </View>
         </View>
       </ScrollView>
-      <StatusBar translucent={true} barStyle={"light-content"} />
+      <StatusBar translucent={true} barStyle={"dark-content"} />
     </SafeAreaView>
   );
 }

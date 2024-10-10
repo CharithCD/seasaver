@@ -84,7 +84,7 @@ const AllRequests: React.FC = () => {
           }
         />
       </View>
-      <StatusBar translucent={true} barStyle={"light-content"} />
+      <StatusBar translucent={true} barStyle={"dark-content"} />
     </SafeAreaView>
   );
 };
