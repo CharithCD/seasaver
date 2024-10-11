@@ -1,13 +1,10 @@
 import TextField from "@/components/TextField";
 import { Ionicons } from "@expo/vector-icons";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   View,
   Text,
-  FlatList,
-  StyleSheet,
   TouchableOpacity,
   Image,
   ScrollView,

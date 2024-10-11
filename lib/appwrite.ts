@@ -165,7 +165,7 @@ export async function signOut() {
 export async function addEvent(form: {
   title: string;
   description: string;
-  date: string;
+  date: Date;
   location: string;
   time: string;
   organizer: string;

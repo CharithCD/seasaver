@@ -5,16 +5,17 @@ import waves from "../../assets/images/wave.jpeg";
 import TextField from "@/components/TextField";
 import SolidButton from "@/components/SolidButton";
 import { addEvent } from "@/lib/appwrite";
+import SelectField from "@/components/SelectField";
+import DateField from "@/components/DateField";
 
 export default function AddEventScreen() {
-  
   const [form, setForm] = React.useState({
     title: "",
     type: "",
     description: "",
     // date: new Date(),
     // time: new Date(),
-    date: "",
+    date: new Date(),
     time: "",
     location: "",
     organizer: "",
@@ -49,9 +50,9 @@ export default function AddEventScreen() {
           title: "",
           type: "",
           description: "",
-          // date: new Date(),
+          date: new Date(),
           // time: new Date(),
-          date: "",
+          // date: "",
           time: "",
           location: "",
           organizer: "",
@@ -91,26 +92,29 @@ export default function AddEventScreen() {
               otherStyles="mt-4"
               keyboardType="default"
             />
-            <TextField
+            <SelectField
               title="Event Type"
               value={form.type}
-              placeholder="Event Type"
-              handleChangeText={(e: string) => {
-                setForm({ ...form, type: e });
+              placeholder="Select Event Type"
+              options={[
+                { label: "Clean Up", value: "cleanup" },
+                { label: "Workshop", value: "workshop" },
+              ]}
+              handleChange={(value: string) => {
+                setForm({ ...form, type: value });
               }}
               otherStyles="mt-4"
-              keyboardType="email-address"
             />
-            {/* <DateField
+            <DateField
               title="Event Date"
               date={form.date}
               handleDateChange={(date: Date) =>
-                setForm({ ...form, date: date })
+                setForm({ ...form, date })
               }
               otherStyles="mt-4"
-            /> */}
+            />
 
-            <TextField
+            {/* <TextField
               title="Event Date"
               value={form.date}
               placeholder="Event Date"
@@ -119,7 +123,7 @@ export default function AddEventScreen() {
               }}
               otherStyles="mt-4"
               keyboardType="default"
-            />
+            /> */}
 
             {/* <TimeField
               title="Event Time"
