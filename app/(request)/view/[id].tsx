@@ -7,6 +7,7 @@ import waves from "@/assets/images/wave.jpeg";
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, ScrollView, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import HeaderTile from "@/components/HeaderTile";
 
 interface Request {
   $id: string;
@@ -59,6 +60,7 @@ export default function RequestDetailsScreen() {
         )}
         {requests.length > 0 && (
           <>
+            <HeaderTile title="Request Details" />
             <View style={{ position: "relative" }}>
               <Image
                 source={waves}

@@ -13,6 +13,7 @@ import { router } from "expo-router";
 import { useGlobalContext } from "@/context/Globalprovider";
 import {  getEntries } from "@/lib/appwrite";
 import EntriesListItem from "@/components/EntriesListItem";
+import HeaderTile from "@/components/HeaderTile";
 
 interface Entry {
   $id: string;
@@ -64,8 +65,9 @@ const AllCompEntries = () => {
   };
 
   return (
-    <SafeAreaView className="w-full h-full bg-blue-50">
-      <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
+    <SafeAreaView className="mt-8">
+      <HeaderTile title="All Competition Entries" />
+      <Image resizeMode="cover" source={waves} className="mt-0 w-full h-28" />
       <View className="p-4">
         <Text className="text-xl font-semibold text-left">Competition Entries</Text>
       </View>

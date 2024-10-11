@@ -9,16 +9,17 @@ import { router, useLocalSearchParams } from "expo-router";
 import { getCompetitionById, updateCompetition } from "@/lib/appwrite";
 import DateField from "@/components/DateField";
 import SelectField from "@/components/SelectField";
+import HeaderTile from "@/components/HeaderTile";
 
 interface Competition {
-  $id: string,
-  title: string,
-  description: string,
-  date: Date,
-  time: string,
-  location: string,
-  imgUrl?: string,
-  isActive: boolean,
+  $id: string;
+  title: string;
+  description: string;
+  date: Date;
+  time: string;
+  location: string;
+  imgUrl?: string;
+  isActive: boolean;
 }
 
 export default function UpdateCompetitionScreen() {
@@ -103,9 +104,9 @@ export default function UpdateCompetitionScreen() {
     </View>
   ) : (
     <SafeAreaView>
-      <StatusBar barStyle="dark-content" />
-      <ScrollView className="-mt-10">
-        <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
+      <ScrollView className="">
+        <HeaderTile title="Update Competition" />
+        <Image resizeMode="cover" source={waves} className="mt-0 w-full h-28" />
         <View className="px-6 mt-4">
           <Text className="text-lg font-bold">Fill the form</Text>
           <Text className="mt-2 text-sm text-justify text-gray-500">
@@ -144,7 +145,6 @@ export default function UpdateCompetitionScreen() {
               otherStyles="mt-4"
             />
 
-
             <TextField
               title="Time"
               value={form.time}
@@ -165,20 +165,22 @@ export default function UpdateCompetitionScreen() {
               }}
               otherStyles="mt-4"
               keyboardType="default"
+              multiline={true}
+              numberOfLines={4}
             />
 
             <TextField
-                title="Image URL"
-                value={form.imgUrl}
-                placeholder="Image URL"
-                handleChangeText={(e: string) => {
-                  setForm({ ...form, imgUrl: e });
-                }}
-                otherStyles="mt-4"
-                keyboardType="default"
-              />
+              title="Image URL"
+              value={form.imgUrl || ""}
+              placeholder="Image URL"
+              handleChangeText={(e: string) => {
+                setForm({ ...form, imgUrl: e });
+              }}
+              otherStyles="mt-4"
+              keyboardType="default"
+            />
 
-<SelectField
+            <SelectField
               title="Active"
               value={form.isActive.toString()}
               handleChange={(e: string) => {

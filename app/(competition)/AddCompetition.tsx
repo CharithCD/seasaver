@@ -7,6 +7,7 @@ import SolidButton from "@/components/SolidButton";
 import { addCompetition } from "@/lib/appwrite";
 import DateField from "@/components/DateField";
 import SelectField from "@/components/SelectField";
+import HeaderTile from "@/components/HeaderTile";
 
 export default function AddCompetitionScreen() {
   const [isSubmitting, setSubmitting] = React.useState(false);
@@ -63,9 +64,9 @@ export default function AddCompetitionScreen() {
 
   return (
     <SafeAreaView>
-      <StatusBar barStyle="dark-content" />
       <ScrollView className="">
-        <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
+        <HeaderTile title="Add Competition" />
+        <Image resizeMode="cover" source={waves} className="mt-0 w-full h-28" />
         <View className="px-6 mt-4">
           <Text className="text-lg font-bold">Fill the form</Text>
           <Text className="mt-2 text-sm text-justify text-gray-500">
@@ -165,6 +166,7 @@ export default function AddCompetitionScreen() {
             </View>
           </View>
         </View>
+        <StatusBar translucent={true} barStyle={'dark-content'}/>
       </ScrollView>
     </SafeAreaView>
   );

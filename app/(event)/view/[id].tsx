@@ -80,7 +80,6 @@ export default function EventDetailsScreen() {
               />
               <TouchableOpacity
                 onPress={() => {
-                  console.log("Back button pressed");
                   router.back();
                 }}              
                 className="absolute top-3 left-3 p-1 bg-gray-200 rounded-full "

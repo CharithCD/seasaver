@@ -14,6 +14,8 @@ import { router } from "expo-router";
 import { useGlobalContext } from "@/context/Globalprovider";
 import { getBlogs } from "@/lib/appwrite";
 import BlogListItem from "@/components/BlogListItem";
+import { Header } from "react-native/Libraries/NewAppScreen";
+import HeaderTile from "@/components/HeaderTile";
 
 interface Blog {
   $id: string;
@@ -59,8 +61,9 @@ const AllBlogs = () => {
   };
 
   return (
-    <SafeAreaView className="w-full h-full bg-blue-50">
-      <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
+    <SafeAreaView className="mt-8">
+      <HeaderTile title="All Blogs" />
+      <Image resizeMode="cover" source={waves} className="mt-0 w-full h-28" />
       <View className="mt-4">
         <View className="flex flex-row items-center justify-between p-4">
           <Text className="text-2xl text-left font-semibold">All Blogs</Text>
@@ -91,7 +94,7 @@ const AllBlogs = () => {
           />
         )}
       </View>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar translucent barStyle="dark-content" />
     </SafeAreaView>
   );
 };

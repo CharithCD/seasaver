@@ -12,6 +12,7 @@ import {
   updateBlog,
   updateCompetition,
 } from "@/lib/appwrite";
+import HeaderTile from "@/components/HeaderTile";
 
 interface Blog {
   $id: string;
@@ -95,9 +96,9 @@ export default function UpdateBlogScreen() {
     </View>
   ) : (
     <SafeAreaView>
-      <StatusBar barStyle="dark-content" />
-      <ScrollView className="-mt-10">
-        <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
+      <ScrollView className="">
+        <HeaderTile title="Update Blog Post" />
+        <Image resizeMode="cover" source={waves} className="mt-0 w-full h-28" />
         <View className="px-6 mt-4">
           <Text className="text-lg font-bold">Edit Blog Post</Text>
           <Text className="mt-2 text-sm text-justify text-gray-500">
@@ -165,6 +166,7 @@ export default function UpdateBlogScreen() {
             </View>
           </View>
         </View>
+        <StatusBar translucent={true} barStyle={'dark-content'}/>
       </ScrollView>
     </SafeAreaView>
   );

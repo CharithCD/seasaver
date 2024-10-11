@@ -15,6 +15,7 @@ import EventListItem from "@/components/EventListItem";
 import waves from "../../assets/images/wave.jpeg";
 import { router } from "expo-router";
 import RequestListItem from "@/components/RequestListItem";
+import HeaderTile from "@/components/HeaderTile";
 
 interface Request {
   $id: string;
@@ -62,8 +63,9 @@ const AllRequests: React.FC = () => {
   };
 
   return (
-    <SafeAreaView className="w-full h-full bg-blue-50">
-      <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
+    <SafeAreaView className="mt-8">
+      <HeaderTile title="All Requests" />
+      <Image resizeMode="cover" source={waves} className="mt-0 w-full h-28" />
       <View className="mt-4">
         <View className="px-6">
           <Text className="text-lg font-bold">All Requests</Text>

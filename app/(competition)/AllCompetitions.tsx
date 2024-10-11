@@ -14,6 +14,7 @@ import { router } from "expo-router";
 import CompetitionListItem from "@/components/CompetitionListItem";
 import { useGlobalContext } from "@/context/Globalprovider";
 import { getCompetitions } from "@/lib/appwrite";
+import HeaderTile from "@/components/HeaderTile";
 
 interface Competition {
   $id: string;
@@ -63,8 +64,9 @@ const AllCompetitions = () => {
   };
 
   return (
-    <SafeAreaView className="w-full h-full bg-blue-50">
-      <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
+    <SafeAreaView className="mt-8">
+      <HeaderTile title="All Competitions" />
+      <Image resizeMode="cover" source={waves} className="mt-0 w-full h-28" />
       <View className="mt-4">
         <View className="flex justify-center items-end p-4">
           <TouchableOpacity
@@ -92,7 +94,7 @@ const AllCompetitions = () => {
           />
         )}
       </View>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar translucent barStyle="dark-content" />
     </SafeAreaView>
   );
 };

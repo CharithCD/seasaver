@@ -9,6 +9,7 @@ import { useGlobalContext } from "@/context/Globalprovider";
 import { getEventById, updateEvent } from "@/lib/appwrite";
 import SelectField from "@/components/SelectField";
 import DateField from "@/components/DateField";
+import HeaderTile from "@/components/HeaderTile";
 
 interface Event {
   $id: string;
@@ -106,9 +107,9 @@ export default function UpdateEventScreen() {
     </View>
   ) : (
     <SafeAreaView>
-      <StatusBar barStyle="dark-content" />
-      <ScrollView className="-mt-10">
-        <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
+      <ScrollView className="">
+        <HeaderTile title="Update Event" />
+        <Image resizeMode="cover" source={waves} className="mt-0 w-full h-28" />
         <View className="px-6 mt-4">
           <Text className="text-lg font-bold">Fill the form</Text>
           <Text className="mt-2 text-sm text-justify text-gray-500">

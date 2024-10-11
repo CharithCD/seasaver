@@ -15,6 +15,7 @@ import { getEvents } from "@/lib/appwrite";
 import EventListItem from "@/components/EventListItem";
 import waves from "../../assets/images/wave.jpeg";
 import { router } from "expo-router";
+import HeaderTile from "@/components/HeaderTile";
 
 interface Event {
   $id: string;
@@ -68,8 +69,8 @@ const AllEvents: React.FC = () => {
   };
 
   return (
-    <SafeAreaView className="w-full h-full bg-blue-50">
-      {/* <ScrollView className=""> */}
+    <SafeAreaView className="mt-6">
+      <HeaderTile title="All Events" />
       <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
       <View className="mt-4">
         <View className="px-6">

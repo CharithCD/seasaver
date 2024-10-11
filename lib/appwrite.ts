@@ -328,7 +328,7 @@ interface Competition {
   $id: string;
   title: string;
   location: string;
-  date: string;
+  date: Date;
   time: string;
   description: string;
   imgUrl?: string;

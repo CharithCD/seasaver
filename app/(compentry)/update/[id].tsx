@@ -20,6 +20,7 @@ import {
   updateEntry,
   updateEvent,
 } from "@/lib/appwrite";
+import HeaderTile from "@/components/HeaderTile";
 
 interface Entry {
   $id: string;
@@ -156,9 +157,9 @@ export default function UpdateEntryScreen() {
     </View>
   ) : (
     <SafeAreaView>
-      <StatusBar barStyle="dark-content" />
-      <ScrollView className="-mt-10">
-        <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
+      <ScrollView className="">
+        <HeaderTile title="Update Entry" />
+        <Image resizeMode="cover" source={waves} className="mt-0 w-full h-28" />
         <View className="px-6 mt-4">
           <View className="border mt-5 p-4 mb-7 border-dashed border-gray-400">
             <TextField
@@ -238,15 +239,6 @@ export default function UpdateEntryScreen() {
               <Text className="text-white text-center">Reject</Text>
               </TouchableOpacity>
             </View>
-
-            <TouchableOpacity
-              onPress={() => {
-              router.back();
-              }}
-              className="flex justify-center items-center mt-4"
-            >
-              <Text className="text-blue-500">Go back</Text>
-            </TouchableOpacity>
           
           </View>
         </View>

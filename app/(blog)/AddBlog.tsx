@@ -5,6 +5,7 @@ import waves from "../../assets/images/wave.jpeg";
 import TextField from "@/components/TextField";
 import SolidButton from "@/components/SolidButton";
 import { addBlog } from "@/lib/appwrite";
+import HeaderTile from "@/components/HeaderTile";
 
 export default function AddBlogScreen() {
   const [isSubmitting, setSubmitting] = React.useState(false);
@@ -54,9 +55,9 @@ export default function AddBlogScreen() {
 
   return (
     <SafeAreaView>
-      <StatusBar barStyle="dark-content" />
       <ScrollView className="">
-        <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
+        <HeaderTile title="Add Blog Post" />
+        <Image resizeMode="cover" source={waves} className="mt-0 w-full h-28" />
         <View className="px-6 mt-4">
           <Text className="text-lg font-bold">Add Blog Post</Text>
           <Text className="mt-2 text-sm text-justify text-gray-500">
@@ -124,6 +125,7 @@ export default function AddBlogScreen() {
             </View>
           </View>
         </View>
+        <StatusBar translucent barStyle={'dark-content'} />
       </ScrollView>
     </SafeAreaView>
   );
