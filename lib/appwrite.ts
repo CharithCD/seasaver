@@ -19,7 +19,7 @@ export const appwriteConfig = {
   competitionCollectionId: "67069767003524bf141a",
   blogCollectionId: "6707798200047291fef3",
   commentCollectionId: "670778220001b2aa4c47",
-  entryCollectionId: "6707e42a000e993c6e1d",
+  entryCollectionId: "6708c757000e12c56655",
 };
 
 const {
@@ -605,22 +605,26 @@ interface Entry {
 }
 
 export async function addEntry(form: {
-  competition: { id: string };
+  competition: {
+    $id: string;
+  };
+  user: {
+    $id: string
+  }
   totItems: number;
   totPoints: number;
   note: string;
 }) {
   try {
     console.log("From appwrite", form);
-    const user = await getCurrentUser();
-    if (!user) throw Error;
+
     const newEntry = await databases.createDocument(
       databaseId,
       entryCollectionId,
       ID.unique(),
       {
-        user: user.$id,
-        competition: form.competition,
+        user: form.user.$id,
+        competition: form.competition.$id,
         totItems: form.totItems,
         totPoints: form.totPoints,
         note: form.note,

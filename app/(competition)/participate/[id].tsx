@@ -18,10 +18,10 @@ import { addEntry, getCompetitionById } from "@/lib/appwrite";
 interface Entry {
   $id: string;
   user: {
-    username: string;
+    $id: string;
   };
   competition: {
-    id: string;
+    $id: string;
   };
   totItems: number;
   totPoints: number;
@@ -47,8 +47,6 @@ const CompetitionDashboard = () => {
   }
 
   const { id } = useLocalSearchParams() as { id: string };
-
-  
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<Competition>({
@@ -169,29 +167,64 @@ const CompetitionDashboard = () => {
   const [form, setForm] = useState<Entry>({
     $id: "",
     user: {
-      username: "",
+      $id: user.id,
     },
     competition: {
-      id: id,
+      $id: id as string,
     },
-    totItems: totalClicks,
-    totPoints: totalPoints,
+    totItems: 0,
+    totPoints: 0,
     note: "",
   });
 
   const submit = async () => {
-    if (form.totItems === 0 || form.totPoints === 0 || form.note === "") {
-      Alert.alert("Error", "Please fill in all fields");
+    if (totalClicks === 0 || totalPoints === 0) {
+      Alert.alert("Error", "Please click on the items to add points");
       return;
     }
+  
+    if (form.note === "") {
+      Alert.alert("Error", "Please add a note");
+      return;
+    }
+  
+    const updatedForm = {
+      ...form,
+      totItems: totalClicks,
+      totPoints: totalPoints,
+    };
+  
+    console.log("Form from front-end", updatedForm);   
     setSubmitting(true);
-
+  
     try {
-      const newEntry = await addEntry(form);
-
+      const newEntry = await addEntry(updatedForm);
+  
       if (newEntry) {
         Alert.alert("Success", "Entry added successfully");
       }
+
+      //clean up
+      setTotalPoints(0);
+      setTotalClicks(0);
+      setItems(
+        items.map((item) => {
+          return { ...item, points: 0, clicks: 0 };
+        })
+      );
+      setForm({
+        $id: "",
+        user: {
+          $id: user.id,
+        },
+        competition: {
+          $id: id as string,
+        },
+        totItems: 0,
+        totPoints: 0,
+        note: "",
+      });
+      
     } catch (error) {
       if (error instanceof Error) {
         Alert.alert("Error", error.message);
@@ -265,10 +298,10 @@ const CompetitionDashboard = () => {
               {items.map((item) => (
                 <TouchableOpacity
                   key={item.id}
-                  className="relative w-1/4 py-2 px-3 bg-blue-100 m-2 rounded-full"
+                  className="relative w-1/4 py-2 px-2 m-2 rounded-full"
                   onPress={() => handleTouch(item.id)}
                 >
-                  <Image source={item.image} className="w-14 h-14" />
+                  <Image source={item.image} className="w-16 h-16" />
 
                   {/* Bubble showing the number of clicks */}
                   <View className="absolute top-0 right-0 bg-blue-500 w-6 h-6 rounded-full justify-center items-center">
@@ -279,30 +312,15 @@ const CompetitionDashboard = () => {
             </View>
           </View>
 
-          <View className="flex mt-12">
-            {/* <TextField
-                title="Total Items"
-                value={form.totItems.toString()}
-                placeholder="Total Items"
-                handleChangeText={(text) =>
-                    setForm({ ...form, totItems: parseInt(text) })
-                }
-            />
+          <View className="flex mt-4">
+
             <TextField
-                title="Total Points"
-                value={form.totPoints.toString()}
-                placeholder="Total Points"
-                handleChangeText={(text) =>
-                    setForm({ ...form, totPoints: parseInt(text) })
-                }
-            /> */}
-            <TextField
-                title="Note"
-                value={form.note}
-                placeholder="Note"
-                handleChangeText={(text) => setForm({ ...form, note: text })}
-                multiline={true}
-                numberOfLines={4}
+              title="Note"
+              value={form.note}
+              placeholder="Note"
+              handleChangeText={(text) => setForm({ ...form, note: text })}
+              multiline={true}
+              numberOfLines={4}
             />
 
             <TouchableOpacity
