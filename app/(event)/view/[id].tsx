@@ -4,8 +4,10 @@ import { getEventById } from "@/lib/appwrite";
 import { Ionicons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { router, useLocalSearchParams } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, ScrollView, StatusBar, TouchableOpacity } from "react-native";
+import { View, Text, Image, ScrollView, TouchableOpacity, Pressable } from "react-native";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Event {
@@ -76,13 +78,15 @@ export default function EventDetailsScreen() {
                   backgroundColor: "#D1D5DB",
                 }}
               />
-              <TouchableOpacity
-                onPress={() => router.back()}
-                style={{ position: "absolute", top: 10, left: 10 }}
-                className="p-1 bg-gray-200 rounded-full"
+              <Pressable
+                onPress={() => {
+                  console.log("Back button pressed");
+                  router.back();
+                }}                
+                className="absolute top-3 left-3 p-1 bg-gray-200 rounded-full "
               >
                 <Ionicons name="close" size={28} color="black" />
-              </TouchableOpacity>
+              </Pressable>
               <Text
                 className="absolute top-48 text-left text-base font-bold p-4 w-full text-gray-900"
                 style={{ backgroundColor: "rgba(255, 255, 255, 0.88)" }}
@@ -99,7 +103,7 @@ export default function EventDetailsScreen() {
                       <Text className="text-[14px] text-white ">Date: </Text>
                     </View>
                     <Text className="text-[14px] text-gray-600">
-                      {new Date(events[0].date).toISOString().split('T')[0]}
+                      {new Date(events[0].date).toISOString().split("T")[0]}
                     </Text>
                   </View>
                 </View>

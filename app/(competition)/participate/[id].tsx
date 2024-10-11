@@ -192,6 +192,7 @@ const CompetitionDashboard = () => {
       await addEntry(updatedForm);
       Alert.alert("Success", "Entry added successfully");
       resetForm();
+      
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred";

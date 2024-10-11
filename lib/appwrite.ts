@@ -591,19 +591,6 @@ export async function getEntryById(id: string) {
 }
 
 //Add Entry
-interface Entry {
-  $id: string;
-  user: {
-    username: string;
-  };
-  competition: {
-    id: string;
-  };
-  totItems: number;
-  totPoints: number;
-  note: string;
-}
-
 export async function addEntry(form: {
   competition: {
     $id: string;
@@ -616,7 +603,6 @@ export async function addEntry(form: {
   note: string;
 }) {
   try {
-    console.log("From appwrite", form);
 
     const newEntry = await databases.createDocument(
       databaseId,
