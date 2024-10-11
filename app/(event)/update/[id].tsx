@@ -7,6 +7,8 @@ import TextField from "@/components/TextField";
 import SolidButton from "@/components/SolidButton";
 import { useGlobalContext } from "@/context/Globalprovider";
 import { getEventById, updateEvent } from "@/lib/appwrite";
+import SelectField from "@/components/SelectField";
+import DateField from "@/components/DateField";
 
 interface Event {
   $id: string;
@@ -125,26 +127,30 @@ export default function UpdateEventScreen() {
               otherStyles="mt-4"
               keyboardType="default"
             />
-            <TextField
+
+            <SelectField
               title="Event Type"
               value={form.type}
               placeholder="Event Type"
-              handleChangeText={(e: string) => {
+              handleChange={(e: string) => {
                 setForm({ ...form, type: e });
               }}
               otherStyles="mt-4"
-              keyboardType="email-address"
+              enabled={true}
+              options={[
+                { label: "Clean Up", value: "cleanup" },
+                { label: "Workshop", value: "workshop" },
+              ]}
             />
 
-            <TextField
+
+            <DateField
               title="Event Date"
-              value={form.date}
-              placeholder="Event Date"
-              handleChangeText={(e: string) => {
-                setForm({ ...form, date: e });
+              date={new Date(form.date)}
+              handleDateChange={(date: Date) => {
+                setForm({ ...form, date: date.toISOString() });
               }}
               otherStyles="mt-4"
-              keyboardType="default"
             />
 
             <TextField

@@ -30,9 +30,11 @@ const Event: React.FC<EventProps> = ({ event }) => {
       <View className="flex flex-col w-1/3">
         <View className="flex flex-row justify-between items-center mb-2">
           <View className="grid grid-cols-2">
-            <View className="flex flex-row items-center gap-2">
+            <View className="flex flex-row items-center justify-center  gap-2">
               <FontAwesome name="calendar" size={16} color={"#006FFD"} />
-              <Text className="text-[14px] text-gray-600">{event.date}</Text>
+              <Text className="text-[14px] text-gray-600">
+                {new Date(event.date).toISOString().split("T")[0]}
+              </Text>
             </View>
             <View className="flex flex-row items-center gap-2">
               <FontAwesome name="clock-o" size={16} color={"#006FFD"} />

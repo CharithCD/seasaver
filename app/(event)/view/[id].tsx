@@ -99,7 +99,7 @@ export default function EventDetailsScreen() {
                       <Text className="text-[14px] text-white ">Date: </Text>
                     </View>
                     <Text className="text-[14px] text-gray-600">
-                      {events[0].date}
+                      {new Date(events[0].date).toISOString().split('T')[0]}
                     </Text>
                   </View>
                 </View>
