@@ -3,7 +3,6 @@ import {
   SafeAreaView,
   View,
   Text,
-  TouchableOpacity,
   Image,
   StatusBar,
   FlatList,
@@ -11,9 +10,8 @@ import {
 } from "react-native";
 import waves from "../../assets/images/wave.jpeg";
 import { router } from "expo-router";
-import CompetitionListItem from "@/components/CompetitionListItem";
 import { useGlobalContext } from "@/context/Globalprovider";
-import { getCompetitions, getEntries } from "@/lib/appwrite";
+import {  getEntries } from "@/lib/appwrite";
 import EntriesListItem from "@/components/EntriesListItem";
 
 interface Entry {

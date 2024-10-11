@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, Image, Alert, ScrollView } from "react-native";
+import { View, Text, Image, Alert, ScrollView, StatusBar } from "react-native";
 import FormField from "../../components/AuthFormField";
 import logo from "../../assets/images/logo.png";
 import { Link, router } from "expo-router";
 import SolidButton from "@/components/SolidButton";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getCurrentUser, signIn, signOut } from "@/lib/appwrite";
+import { getCurrentUser, signIn } from "@/lib/appwrite";
 import { useGlobalContext } from "@/context/Globalprovider";
 
 const SignIn = () => {
@@ -99,6 +99,7 @@ const SignIn = () => {
             </View>
           </View>
         </View>
+        <StatusBar translucent barStyle={'dark-content'} />
       </ScrollView>
     </SafeAreaView>
   );

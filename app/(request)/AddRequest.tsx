@@ -2,10 +2,12 @@ import { View, Text, ScrollView, Image, StatusBar, Alert } from "react-native";
 import waves from "@/assets/images/wave.jpeg"; // Adjust the path as necessary
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import TextField from "@/components/TextField";
 import SolidButton from "@/components/SolidButton";
 import { addRequest } from "@/lib/appwrite";
+import { Ionicons } from "@expo/vector-icons";
+import HeaderTile from "@/components/HeaderTile";
 
 export default function AddRequestScreen() {
   const [form, setForm] = React.useState({
@@ -58,6 +60,7 @@ export default function AddRequestScreen() {
   return (
     <SafeAreaView>
       <ScrollView className="">
+        <HeaderTile title="Request Event" />
         <Image resizeMode="cover" source={waves} className="mt-0 w-full h-32" />
         <View className="px-6 mt-4">
           <Text className="text-lg font-bold">Fill the form</Text>
@@ -116,6 +119,8 @@ export default function AddRequestScreen() {
               }}
               otherStyles="mt-4"
               keyboardType="default"
+              multiline={true}
+              numberOfLines={5}
             />
 
             <View className="flex flex-row">

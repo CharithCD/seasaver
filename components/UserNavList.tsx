@@ -9,7 +9,7 @@ const LinksList = [
   },
   {
     title: "Competition",
-    link: "/",
+    link: "/(tabs)/competitions",
   },
   {
     title:"Request Event",

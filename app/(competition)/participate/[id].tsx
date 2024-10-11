@@ -231,7 +231,7 @@ const CompetitionDashboard = () => {
                 Total Points: {totalPoints}
               </Text>
             </View>
-            <View className="flex flex-row justify-between mb-2">
+            <View className="flex flex-row justify-between mt-2 mb-2">
               <TouchableOpacity
                 className="p-2 bg-blue-300 rounded-lg"
                 onPress={() => {
