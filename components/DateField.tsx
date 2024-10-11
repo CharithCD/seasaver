@@ -32,7 +32,7 @@ const DateField: React.FC<DateFieldProps> = ({
       <Text className="text-base text-gray-900">{title}</Text>
       <View className="w-full h-12 px-4 rounded-md border-2 border-[#c5c6cc] focus:border-blue-300 flex flex-row items-center">
         <TouchableOpacity onPress={() => setShow(true)}>
-          <FontAwesome name="calendar" size={24} color="#000" />
+          <FontAwesome name="calendar" size={20} color="#c5c6cc" />
         </TouchableOpacity>
         <Text className="ml-4 text-base text-gray-900">{formattedDate}</Text>
         {show && (

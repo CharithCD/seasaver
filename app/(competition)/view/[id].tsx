@@ -4,14 +4,13 @@ import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "@/context/Globalprovider";
 import { getCompetitionById } from "@/lib/appwrite";
 import { router, useLocalSearchParams } from "expo-router";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
 
 interface Competition {
   $id: string;
   title: string;
   description: string;
-  date: string;
+  date: Date;
   time: string;
   location: string;
   imgUrl?: string;
@@ -33,10 +32,11 @@ export default function ViewCompetitionScreen() {
     $id: "",
     title: "",
     location: "",
-    date: "",
+    date: new Date(),
     time: "",
     description: "",
     imgUrl: "",
+    isActive: false,
   });
 
   const getData = async () => {
@@ -93,7 +93,7 @@ export default function ViewCompetitionScreen() {
           </View>
           <View className="px-4">
             <Text className="text-base font-semibold text-gray-700">
-              Date: {form.date}
+              Date: {new Date(form.date).toISOString().split('T')[0]}
             </Text>
             <Text className="text-base font-semibold text-gray-700">
               Location: {form.location}

@@ -7,15 +7,18 @@ import SolidButton from "@/components/SolidButton";
 import { useGlobalContext } from "@/context/Globalprovider";
 import { router, useLocalSearchParams } from "expo-router";
 import { getCompetitionById, updateCompetition } from "@/lib/appwrite";
+import DateField from "@/components/DateField";
+import SelectField from "@/components/SelectField";
 
 interface Competition {
-  $id: string;
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  location: string;
-  imgUrl?: string;
+  $id: string,
+  title: string,
+  description: string,
+  date: Date,
+  time: string,
+  location: string,
+  imgUrl?: string,
+  isActive: boolean,
 }
 
 export default function UpdateCompetitionScreen() {
@@ -34,10 +37,11 @@ export default function UpdateCompetitionScreen() {
     $id: "",
     title: "",
     location: "",
-    date: "",
+    date: new Date(),
     time: "",
     description: "",
     imgUrl: "",
+    isActive: false,
   });
 
   const getData = async () => {
@@ -52,6 +56,7 @@ export default function UpdateCompetitionScreen() {
       time: document.time,
       location: document.location,
       imgUrl: document.imgUrl,
+      isActive: document.isActive,
     };
     setForm(data);
     setIsLoading(false);
@@ -65,9 +70,10 @@ export default function UpdateCompetitionScreen() {
     if (
       form.title === "" ||
       form.description === "" ||
-      form.date === "" ||
+      form.date === null ||
       form.time === "" ||
-      form.location === ""
+      form.location === "" ||
+      form.imgUrl === ""
     ) {
       Alert.alert("Error", "Please fill in all fields");
       return;
@@ -129,16 +135,15 @@ export default function UpdateCompetitionScreen() {
               keyboardType="default"
             />
 
-            <TextField
+            <DateField
               title="Date"
-              value={form.date}
-              placeholder="Date"
-              handleChangeText={(e: string) => {
-                setForm({ ...form, date: e });
+              date={new Date(form.date)}
+              handleDateChange={(date: Date) => {
+                setForm({ ...form, date });
               }}
               otherStyles="mt-4"
-              keyboardType="default"
             />
+
 
             <TextField
               title="Time"
@@ -162,7 +167,7 @@ export default function UpdateCompetitionScreen() {
               keyboardType="default"
             />
 
-            {/* <TextField
+            <TextField
                 title="Image URL"
                 value={form.imgUrl}
                 placeholder="Image URL"
@@ -171,7 +176,21 @@ export default function UpdateCompetitionScreen() {
                 }}
                 otherStyles="mt-4"
                 keyboardType="default"
-              /> */}
+              />
+
+<SelectField
+              title="Active"
+              value={form.isActive.toString()}
+              handleChange={(e: string) => {
+                setForm({ ...form, isActive: e === "true" });
+              }}
+              options={[
+                { label: "Yes", value: "true" },
+                { label: "No", value: "false" },
+              ]}
+              otherStyles="mt-4"
+              placeholder={""}
+            />
 
             <View className="flex flex-row">
               <View className="flex-1 flex-col">

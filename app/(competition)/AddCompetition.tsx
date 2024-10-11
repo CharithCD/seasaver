@@ -5,6 +5,8 @@ import waves from "../../assets/images/wave.jpeg";
 import TextField from "@/components/TextField";
 import SolidButton from "@/components/SolidButton";
 import { addCompetition } from "@/lib/appwrite";
+import DateField from "@/components/DateField";
+import SelectField from "@/components/SelectField";
 
 export default function AddCompetitionScreen() {
   const [isSubmitting, setSubmitting] = React.useState(false);
@@ -12,17 +14,18 @@ export default function AddCompetitionScreen() {
   const [form, setForm] = React.useState({
     title: "",
     location: "",
-    date: "",
+    date: new Date(),
     time: "",
     description: "",
     imgUrl: "",
+    isActive: false,
   });
 
   const submit = async () => {
     if (
       form.title === "" ||
       form.location === "" ||
-      form.date === "" ||
+      isNaN(form.date.getTime()) ||
       form.time === "" ||
       form.description === ""
     ) {
@@ -40,10 +43,11 @@ export default function AddCompetitionScreen() {
         setForm({
           title: "",
           location: "",
-          date: "",
+          date: new Date(),
           time: "",
           description: "",
           imgUrl: "",
+          isActive: false,
         });
       }
     } catch (error) {
@@ -91,15 +95,13 @@ export default function AddCompetitionScreen() {
               keyboardType="default"
             />
 
-            <TextField
+            <DateField
               title="Date"
-              value={form.date}
-              placeholder="Date"
-              handleChangeText={(e: string) => {
-                setForm({ ...form, date: e });
+              date={new Date(form.date)}
+              handleDateChange={(date: Date) => {
+                setForm({ ...form, date: date });
               }}
               otherStyles="mt-4"
-              keyboardType="default"
             />
 
             <TextField
@@ -135,6 +137,20 @@ export default function AddCompetitionScreen() {
               otherStyles="mt-4"
               keyboardType="default"
             />
+            <SelectField
+              title="Active"
+              value={form.isActive.toString()}
+              handleChange={(e: string) => {
+                setForm({ ...form, isActive: e === "true" });
+              }}
+              options={[
+                { label: "Yes", value: "true" },
+                { label: "No", value: "false" },
+              ]}
+              otherStyles="mt-4"
+              placeholder={""}
+            />
+
             <View className="flex flex-row">
               <View className="flex-1 flex-col">
                 <SolidButton

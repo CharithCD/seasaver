@@ -73,9 +73,7 @@ export default function CompetitionsScreen() {
           keyExtractor={(item) => item.$id}
           renderItem={({ item }) => (
             <TouchableOpacity
-              onPress={() =>
-                router.push(`/(competition)/view/${item.$id}`)
-              }
+              onPress={() => router.push(`/(competition)/view/${item.$id}`)}
             >
               <View className=" m-2">
                 <View className="flex-row items-center">
@@ -90,7 +88,8 @@ export default function CompetitionsScreen() {
                       {item.title}
                     </Text>
                     <Text className="text-gray-500">
-                      {item.date} at {item.time}
+                      {new Date(item.date).toISOString().split("T")[0]} at{" "}
+                      {item.time}
                     </Text>
                     <Text className="mt-1 text-gray-500">
                       Location: {item.location}

@@ -332,16 +332,18 @@ interface Competition {
   time: string;
   description: string;
   imgUrl?: string;
+  isActive: boolean;
 }
 
 //Add Competition
 export async function addCompetition(form: {
   title: string;
   location: string;
-  date: string;
+  date: Date;
   time: string;
   description: string;
   imgUrl: string;
+  isActive: boolean;
 }) {
   try {
     const newCompetition = await databases.createDocument(
@@ -355,6 +357,7 @@ export async function addCompetition(form: {
         time: form.time,
         description: form.description,
         imgUrl: form.imgUrl,
+        isActive: form.isActive,
       }
     );
 
@@ -378,6 +381,7 @@ export async function updateCompetition(competition: Competition) {
         time: competition.time,
         description: competition.description,
         imgUrl: competition.imgUrl,
+        isActive: competition.isActive,
       }
     );
 
@@ -607,7 +611,7 @@ export async function addEntry(form: {
   note: string;
 }) {
   try {
-    
+    console.log("From appwrite", form);
     const user = await getCurrentUser();
     if (!user) throw Error;
     const newEntry = await databases.createDocument(

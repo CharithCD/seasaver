@@ -27,7 +27,7 @@ const CompetitionListItem = (competition: {
             <View className="flex flex-row items-center gap-2">
               <FontAwesome name="calendar" size={16} color={"#006FFD"} />
               <Text className="text-[14px] text-gray-600">
-                {competition.date}
+                {competition.date.split("T")[0]}
               </Text>
             </View>
             <View className="flex flex-row items-center gap-2">
