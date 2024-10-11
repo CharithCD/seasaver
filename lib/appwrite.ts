@@ -585,3 +585,46 @@ export async function getEntryById(id: string) {
     throw new Error(String(error));
   }
 }
+
+//Add Entry
+interface Entry {
+  $id: string;
+  user: {
+    username: string;
+  };
+  competition: {
+    id: string;
+  };
+  totItems: number;
+  totPoints: number;
+  note: string;
+}
+
+export async function addEntry(form: {
+  competition: { id: string };
+  totItems: number;
+  totPoints: number;
+  note: string;
+}) {
+  try {
+    
+    const user = await getCurrentUser();
+    if (!user) throw Error;
+    const newEntry = await databases.createDocument(
+      databaseId,
+      entryCollectionId,
+      ID.unique(),
+      {
+        user: user.$id,
+        competition: form.competition,
+        totItems: form.totItems,
+        totPoints: form.totPoints,
+        note: form.note,
+      }
+    );
+
+    return newEntry;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}

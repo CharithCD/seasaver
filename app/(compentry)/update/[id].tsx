@@ -16,9 +16,10 @@ interface Entry {
   competition: {
     title: string;
   };
-  date: string;
-  time: string;
+  totItems: number;
+  totPoints: number;
   note: string;
+  isValid: boolean;
 }
 
 export default function UpdateEntryScreen() {
@@ -39,12 +40,13 @@ export default function UpdateEntryScreen() {
     competition: {
       title: "",
     },
-    date: "",
-    time: "",
+    totItems: 0,
+    totPoints: 0,
     note: "",
+    isValid: false,
   });
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSubmitting, setSubmitting] = React.useState(false);
 
   const getData = async () => {
@@ -55,9 +57,10 @@ export default function UpdateEntryScreen() {
       $id: document.$id,
       user: document.user,
       competition: document.competition,
-      date: document.date,
-      time: document.time,
+      totItems: document.totItems,
+      totPoints: document.totPoints,
       note: document.note,
+      isValid: document.isValid,
     };
     setForm(data);
     setIsLoading(false);
@@ -71,8 +74,8 @@ export default function UpdateEntryScreen() {
     if (
       form.user.username === "" ||
       form.competition.title === "" ||
-      form.date === "" ||
-      form.time === "" ||
+      form.totItems === 0 ||
+      form.totPoints === 0 ||
       form.note === ""
     ) {
       Alert.alert("Error", "Please fill in all fields");
@@ -124,21 +127,24 @@ export default function UpdateEntryScreen() {
               handleChangeText={(text) =>
                 setForm({ ...form, competition: { title: text } })
               }
-                editable={false}
-            />
-            <TextField
-              title="Date"
-              value={form.date}
-              placeholder="Date"
-              handleChangeText={(text) => setForm({ ...form, date: text })}
               editable={false}
             />
             <TextField
-              title="Time"
-              value={form.time}
-              placeholder="Time"
-              handleChangeText={(text) => setForm({ ...form, time: text })}
-                editable={false}
+              title="Total Items"
+              value={form?.totItems.toString() || ""}
+              placeholder="Total Items"
+              handleChangeText={(text) =>
+                setForm({ ...form, totItems: parseInt(text) })
+              }
+            />
+            <TextField
+              title="Total Points"
+              value={form.totPoints.toString()}
+              placeholder="Total Points"
+              handleChangeText={(text) =>
+                setForm({ ...form, totPoints: parseInt(text) })
+              }
+              editable={false}
             />
             <TextField
               title="Note"
@@ -152,14 +158,31 @@ export default function UpdateEntryScreen() {
 
             <View className="flex flex-row">
               <View className="flex flex-col w-1/2">
-                <SolidButton
-                  title="Approve"
-                  handlePress={() => {}}
-                  containerStyles="mt-6"
-                  isLoading={isSubmitting}
-                />
+              <SolidButton
+                title="Approve"
+                handlePress={() => {
+                setForm({ ...form, isValid: true });
+                submit();
+                }}
+                containerStyles="mt-6"
+                isLoading={isSubmitting}
+              />
               </View>
             </View>
+            <View className="flex flex-row">
+              <View className="flex flex-col w-1/2">
+              <SolidButton
+                title="Reject"
+                handlePress={() => {
+                setForm({ ...form, isValid: false });
+                submit();
+                }}
+                containerStyles="mt-6"
+                isLoading={isSubmitting}
+              />
+              </View>
+            </View>
+
           </View>
         </View>
       </ScrollView>

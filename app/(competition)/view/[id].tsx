@@ -15,6 +15,7 @@ interface Competition {
   time: string;
   location: string;
   imgUrl?: string;
+  isActive?: boolean;
 }
 
 export default function ViewCompetitionScreen() {
@@ -50,6 +51,7 @@ export default function ViewCompetitionScreen() {
       time: document.time,
       location: document.location,
       imgUrl: document.imgUrl,
+      isActive: document.isActive,
     };
     setForm(data);
     setIsLoading(false);
@@ -105,8 +107,11 @@ export default function ViewCompetitionScreen() {
 
           <View className="p-4">
             <TouchableOpacity
-              onPress={() => router.push("/(competition)/CompetitionDashboard")}
-              className="flex justify-center items-center mt-8 bg-primary py-2 rounded-xl"
+              onPress={() => router.push(`/(competition)/participate/${form.$id}`)}
+              className={`flex justify-center items-center mt-8 py-2 rounded-xl ${
+              form.isActive ? "bg-primary" : "bg-gray-400"
+              }`}
+              disabled={!form.isActive}
             >
               <Text className="text-lg font-bold text-white">Participate</Text>
             </TouchableOpacity>
