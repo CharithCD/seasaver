@@ -1,7 +1,4 @@
-import TextField from "@/components/TextField";
-import { Ionicons } from "@expo/vector-icons";
-import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,18 +8,17 @@ import {
   Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
+import { useLocalSearchParams, router } from "expo-router";
 import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "@/assets/icons/index";
 import { useGlobalContext } from "@/context/Globalprovider";
 import { addEntry, getCompetitionById } from "@/lib/appwrite";
+import TextField from "@/components/TextField";
 
 interface Entry {
   $id: string;
-  user: {
-    $id: string;
-  };
-  competition: {
-    $id: string;
-  };
+  user: { $id: string };
+  competition: { $id: string };
   totItems: number;
   totPoints: number;
   note: string;
@@ -47,9 +43,8 @@ const CompetitionDashboard = () => {
   }
 
   const { id } = useLocalSearchParams() as { id: string };
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [data, setData] = useState<Competition>({
+  const [isLoading, setIsLoading] = useState(false);
+  const [competitionData, setCompetitionData] = useState<Competition>({
     $id: "",
     title: "",
     description: "",
@@ -58,27 +53,6 @@ const CompetitionDashboard = () => {
     location: "",
     imgUrl: "",
   });
-
-  const getData = async () => {
-    setIsLoading(true);
-    const documents = await getCompetitionById(id as string);
-    const document = documents[0];
-    const data: Competition = {
-      $id: document.$id,
-      title: document.title,
-      description: document.description,
-      date: document.date,
-      time: document.time,
-      location: document.location,
-      imgUrl: document.imgUrl,
-    };
-    setData(data);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   const [items, setItems] = useState([
     {
@@ -131,106 +105,97 @@ const CompetitionDashboard = () => {
     },
   ]);
 
-  const [totalPoints, setTotalPoints] = useState(0);
-  const [totalClicks, setTotalClicks] = useState(0);
-
-  // Function to handle touch and update points and clicks
-  const handleTouch = (id: number) => {
-    const updatedItems = items.map((item) => {
-      if (item.id === id) {
-        const newPoints = item.points + item.pointsPerClick;
-        const newClicks = item.clicks + 1;
-        return { ...item, points: newPoints, clicks: newClicks };
-      }
-      return item;
-    });
-
-    // Update state
-    setItems(updatedItems);
-
-    // Calculate total points after updating the items
-    const newTotalPoints = updatedItems.reduce(
-      (acc, item) => acc + item.points,
-      0
-    );
-    setTotalPoints(newTotalPoints);
-
-    // Calculate total clicks after updating the items
-    const newTotalClicks = updatedItems.reduce(
-      (acc, item) => acc + item.clicks,
-      0
-    );
-    setTotalClicks(newTotalClicks);
-  };
-
-  const [isSubmitting, setSubmitting] = React.useState(false);
   const [form, setForm] = useState<Entry>({
     $id: "",
-    user: {
-      $id: user.id,
-    },
-    competition: {
-      $id: id as string,
-    },
+    user: { $id: user.id },
+    competition: { $id: id },
     totItems: 0,
     totPoints: 0,
     note: "",
   });
 
-  const submit = async () => {
-    if (totalClicks === 0 || totalPoints === 0) {
-      Alert.alert("Error", "Please click on the items to add points");
-      return;
-    }
-  
-    if (form.note === "") {
-      Alert.alert("Error", "Please add a note");
-      return;
-    }
-  
-    const updatedForm = {
-      ...form,
-      totItems: totalClicks,
-      totPoints: totalPoints,
-    };
-  
-    console.log("Form from front-end", updatedForm);   
-    setSubmitting(true);
-  
-    try {
-      const newEntry = await addEntry(updatedForm);
-  
-      if (newEntry) {
-        Alert.alert("Success", "Entry added successfully");
-      }
+  const [isSubmitting, setSubmitting] = useState(false);
 
-      //clean up
-      setTotalPoints(0);
-      setTotalClicks(0);
-      setItems(
-        items.map((item) => {
-          return { ...item, points: 0, clicks: 0 };
-        })
-      );
-      setForm({
-        $id: "",
-        user: {
-          $id: user.id,
-        },
-        competition: {
-          $id: id as string,
-        },
-        totItems: 0,
-        totPoints: 0,
-        note: "",
+  const fetchCompetitionData = async () => {
+    setIsLoading(true);
+    try {
+      const [document] = await getCompetitionById(id);
+      setCompetitionData({
+        $id: document.$id,
+        title: document.title,
+        description: document.description,
+        date: document.date,
+        time: document.time,
+        location: document.location,
+        imgUrl: document.imgUrl,
       });
-      
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCompetitionData();
+  }, []);
+
+  const handleTouch = useCallback(
+    (id: number) => {
+      setItems((prevItems) =>
+        prevItems.map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                points: item.points + item.pointsPerClick,
+                clicks: item.clicks + 1,
+              }
+            : item
+        )
+      );
+    },
+    [setItems]
+  );
+
+  const totalClicks = items.reduce((acc, item) => acc + item.clicks, 0);
+  const totalPoints = items.reduce((acc, item) => acc + item.points, 0);
+
+  const resetForm = () => {
+    setItems((prevItems) =>
+      prevItems.map((item) => ({ ...item, points: 0, clicks: 0 }))
+    );
+    setForm({
+      $id: "",
+      user: { $id: user.id },
+      competition: { $id: id },
+      totItems: 0,
+      totPoints: 0,
+      note: "",
+    });
+  };
+
+  const submit = async () => {
+    if (totalClicks === 0 || totalPoints === 0 || form.note === "") {
+      Alert.alert(
+        "Error",
+        "Please fill out all fields and interact with the items."
+      );
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const updatedForm = {
+        ...form,
+        totItems: totalClicks,
+        totPoints: totalPoints,
+      };
+
+      await addEntry(updatedForm);
+      Alert.alert("Success", "Entry added successfully");
+      resetForm();
     } catch (error) {
-      if (error instanceof Error) {
-        Alert.alert("Error", error.message);
-      } else {
-        Alert.alert("Error", "An unknown error occurred");
-      }
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      Alert.alert("Error", errorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -242,50 +207,38 @@ const CompetitionDashboard = () => {
     </View>
   ) : (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView className="">
         <View className="p-4">
           <TouchableOpacity
             onPress={() => router.back()}
-            style={{ position: "absolute", top: 10, left: 10 }}
-            className="p-1 bg-gray-200 rounded-full"
+            className="p-1 bg-gray-200 rounded-full absolute top-3 left-3"
           >
             <Ionicons name="close" size={28} color="black" />
           </TouchableOpacity>
-          <View className="p-2 mt-4">
+          <View className="p-2 mt-6">
             <Text className="text-xl font-semibold text-center">
-              {data.title}
+              {competitionData.title}
             </Text>
           </View>
+
           <View className="bg-primary p-4 my-6 rounded-2xl">
             <View className="flex flex-row justify-between mb-2">
-              <View className="p-2">
-                <Text className="text-white text-base font-semibold">
-                  No of Items:
-                </Text>
-                <Text className="text-white text-base font-semibold">
-                  {totalClicks}
-                </Text>
-              </View>
-              <View className="p-2">
-                <Text className="text-white text-base font-semibold">
-                  Total Points:
-                </Text>
-                <Text className="text-white text-base font-semibold">
-                  {totalPoints}
-                </Text>
-              </View>
+              <Text className="text-white text-base font-semibold">
+                No of Items: {totalClicks}
+              </Text>
+              <Text className="text-white text-base font-semibold">
+                Total Points: {totalPoints}
+              </Text>
             </View>
             <View className="flex flex-row justify-between mb-2">
-              <View className="p-2">
-                <TouchableOpacity
-                  className="p-2 bg-blue-300 rounded-lg"
-                  onPress={() => {
-                    router.push("/(competition)/LeaderBoard");
-                  }}
-                >
-                  <Text className="text-white">Leaderboard</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                className="p-2 bg-blue-300 rounded-lg"
+                onPress={() => {
+                  router.push("/(competition)/LeaderBoard");
+                }}
+              >
+                <Text className="text-white">Leaderboard</Text>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -302,8 +255,6 @@ const CompetitionDashboard = () => {
                   onPress={() => handleTouch(item.id)}
                 >
                   <Image source={item.image} className="w-16 h-16" />
-
-                  {/* Bubble showing the number of clicks */}
                   <View className="absolute top-0 right-0 bg-blue-500 w-6 h-6 rounded-full justify-center items-center">
                     <Text className="text-white text-xs">{item.clicks}</Text>
                   </View>
@@ -313,13 +264,12 @@ const CompetitionDashboard = () => {
           </View>
 
           <View className="flex mt-4">
-
             <TextField
               title="Note"
               value={form.note}
               placeholder="Note"
               handleChangeText={(text) => setForm({ ...form, note: text })}
-              multiline={true}
+              multiline
               numberOfLines={4}
             />
 
