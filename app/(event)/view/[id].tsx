@@ -78,15 +78,15 @@ export default function EventDetailsScreen() {
                   backgroundColor: "#D1D5DB",
                 }}
               />
-              <Pressable
+              <TouchableOpacity
                 onPress={() => {
                   console.log("Back button pressed");
                   router.back();
-                }}                
+                }}              
                 className="absolute top-3 left-3 p-1 bg-gray-200 rounded-full "
               >
                 <Ionicons name="close" size={28} color="black" />
-              </Pressable>
+              </TouchableOpacity>
               <Text
                 className="absolute top-48 text-left text-base font-bold p-4 w-full text-gray-900"
                 style={{ backgroundColor: "rgba(255, 255, 255, 0.88)" }}

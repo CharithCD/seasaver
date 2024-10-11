@@ -622,3 +622,41 @@ export async function addEntry(form: {
     throw new Error(String(error));
   }
 }
+
+//Update Entry
+interface Entry {
+  $id: string;
+  user: {
+    $id: string;
+  };
+  competition: {
+    $id: string;
+  };
+  totItems: number;
+  totPoints: number;
+  note: string;
+  isValid: boolean;
+}
+
+export async function updateEntry(entry: Entry) {
+  try {
+
+    const updatedEntry = await databases.updateDocument(
+      databaseId,
+      entryCollectionId,
+      entry.$id,
+      {
+        user: entry.user.$id,
+        competition: entry.competition.$id,
+        totItems: entry.totItems,
+        totPoints: entry.totPoints,
+        note: entry.note,
+        isValid: entry.isValid,
+      }
+    );
+
+    return updatedEntry;
+  } catch (error) {
+    throw new Error(String(error));
+  }
+}

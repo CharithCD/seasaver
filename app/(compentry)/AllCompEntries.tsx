@@ -24,8 +24,8 @@ interface Entry {
   competition: {
     title: string;
   };
-  date: string;
-  time: string;
+  totItems: number;
+  totPoints: number;
   note: string;
 }
 
@@ -46,8 +46,8 @@ const AllCompEntries = () => {
       $id: doc.$id,
       user: doc.user,
       competition: doc.competition,
-      date: doc.date,
-      time: doc.time,
+      totItems: doc.totItems,
+      totPoints: doc.totPoints,
       note: doc.note,
     }));
     setEntries(data);
