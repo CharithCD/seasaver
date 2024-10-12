@@ -17,8 +17,8 @@ interface RequestProps {
 
 const Event: React.FC<RequestProps> = ({ request }) => {
   return (
-    <View className="flex flex-row bg-white p-6 my-2 mx-4 rounded-lg shadow-lg justify-between">
-      <View className="flex flex-col text-justify pr-2">
+    <View className="flex flex-row bg-white p-6 my-2 mx-4 rounded-lg shadow-lg  justify-between">
+      <View className="flex flex-col text-justify pr-2 max-w-[240px]">
         <Text className="text-[18px] font-semibold leading-6 text-gray-800">
           {request.fullName}
         </Text>
