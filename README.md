@@ -1,50 +1,86 @@
-# Welcome to your Expo app 👋
+# SeaSavers 🌊
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Welcome to **SeaSavers**, a mobile app dedicated to promoting beach cleanups and marine conservation through gamification, educational content, and community collaboration. Our mission is to engage and empower users to take meaningful action toward protecting our oceans.
 
-## Get started
+---
 
-1. Install dependencies
+## 🌟 Table of Contents
+- [About SeaSavers](#about-seasaver)
+- [Features](#features)
+- [Installation Guide](#installation-guide)
+- [Contributors](#contributors)
 
+---
+
+## About SeaSavers
+
+SeaSavers was developed using **Expo** and **AppWrite** to create a seamless and interactive mobile experience. The app supports the **United Nations Sustainable Development Goal (SDG) 14: Life Below Water**, which focuses on the conservation and sustainable use of oceans and marine resources.
+
+### 🌊 Primary Goals:
+- **Organize and Participate:** Make beach cleanup efforts easier to organize and join.
+- **Educate and Inspire:** Teach users about the effects of marine pollution and the importance of conservation.
+- **Build a Community:** Foster a global network dedicated to ocean protection.
+
+---
+
+## Features
+
+### 🏖️ Beach Cleanup Competitions
+- Join local or global cleanup competitions.
+- Earn rewards and recognition for your efforts.
+
+### 📅 Events and Workshops
+- Browse upcoming cleanup events and conservation workshops.
+- Submit event requests as an organization for admin review.
+- Easily find and participate in activities near you.
+
+### 📝 Blog and Educational Content
+- Access articles on marine pollution, cleanup benefits, and best practices.
+- Share feedback through a commenting system.
+
+### 🌐 Community Posts and Discussions
+- Share your cleanup experiences with photos, videos, and stories.
+- Engage in discussions about marine conservation.
+- Connect with a global network of ocean advocates.
+
+---
+
+## Installation Guide
+
+Follow these steps to set up **SeaSavers** on your local machine:
+
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/CharithCD/seasavers.git
+   ```
+
+2. **Navigate to the Project Directory:**
+   ```bash
+   cd SeaSavers
+   ```
+
+3. **Install Dependencies:**
    ```bash
    npm install
    ```
 
-2. Start the app
-
+4. **Start the App:**
    ```bash
-    npx expo start
+   npx expo start
    ```
+---
 
-In the output, you'll find options to open the app in a
+## Contributors
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+This project was developed with contributions from:
+- Weerasinghe C.D. (IT19211688)
+- Dias D.D.K.S. (IT21220760)
+- Sandeepa K.B.A.R. (IT21809088)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Thank you for joining us on this journey to protect our oceans! 🌍💙
+Feel free to ⭐ the repository if you find this project inspiring.
+For any issues or feedback, open an issue in the repository.
 
-## Get a fresh project
 
-When you're ready, run:
 
-```bash
-npm run reset-project
-```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
